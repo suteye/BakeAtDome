@@ -64,12 +64,12 @@ database: ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=fo
     $ git clone https://github.com/suteye/POS.git 
     $ cd pos
   ```
-- Install the dependencies with [npm](https://docs.npmjs.com/getting-started/installing-node-js). for server
+- Install the dependencies with [npm](https://docs.npmjs.com/getting-started/installing-node-js). For server
   
   ```
     $ npm install
   ```
-- Install the dependencies with [npm](https://docs.npmjs.com/getting-started/installing-node-js). for frontend
+- Install the dependencies with [npm](https://docs.npmjs.com/getting-started/installing-node-js). For frontend
   
   ```
     $ cd frontend
