@@ -1,6 +1,6 @@
-# TU More Read <a href="https://youtu.be/s-VStr__320"><img src="https://img.shields.io/badge/click-for%20source%20code-orange" alt="Source Code Badge"></a>
+# Bake@Dome <a href="https://youtu.be/s-VStr__320"><img src="https://img.shields.io/badge/click-for%20source%20code-orange" alt="Source Code Badge"></a>
 
-TU More Read is a POS (point-of-sale) system used within bookstores that is used to sell books, manage financial transactions, control and check the total number of books within the store. TU More Read is developed from the MERN Point of Sale, so TU More Read will use MongoDB, Express, React, and Node.
+Bake@Dome is a POS (point-of-sale) system used within Bake@Dome that is used to sell bakery and drinks, manage financial transactions, control and check the total number of bakery and drinks within the store. Bake@Dome is developed from the MERN Point of Sale, so Bake@Dome  will use Google Sheets, Express, React, and Node.
 
 
 ## 📮 Current Function
