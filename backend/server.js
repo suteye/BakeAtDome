@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
-const  data = require('./routes/data');
+const  product = require('./routes/Product');
 
 require('colors');
 
@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(morgan("dev"));
 
 //routes
-app.use('/api/', data);
+app.use('/api/products', product);
 ///port
 const port = process.env.PORT || 5000;
 
