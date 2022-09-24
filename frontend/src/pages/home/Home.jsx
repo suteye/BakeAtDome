@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
+import { Row, Input, Select, Card} from 'antd';
 import LayoutApp from '../../components/Layout'
-import { Row, Col, Input, Select,Pagination} from 'antd';
 import Product from '../../components/Product';
 import { useDispatch } from 'react-redux';
+import Cart from '../../components/Cart';
+
 
 
 
@@ -12,11 +14,9 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const [productData, setProductData] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([])
 
   const [search, setSearch]  =  useState("")
-
-
 
   useEffect(() => {
     const getAllProducts = async () => {
@@ -89,44 +89,32 @@ const Home = () => {
   }
   var filteredData = getFilteredData(); 
 
+  
+  const searchProduct = productData.filter((product => {
+    return product.name.includes(search);
+  })).map((item, index) => {
+    return <Product key={index} product={item} />
+  });
+
   return (
     <LayoutApp>
+      <div className="container">
       <div className="category">
-      <Input addonBefore={selectBefore}  size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
- 
-       {/*{categories.map((category) => (
-          <div key={category.name} className={`categoryFlex ${selectedCategory === category.name && 'category-active'}`} onClick={() => setSelectedCategory(category.name)}>
-            <h3 className="categoryName">{category.name}</h3>
-            <img src={category.imageUrl} alt={category.name} height={60} width={60} />
-          </div>
-       ))}*/ }
+        <Input addonBefore={selectBefore}  size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
+      </div>
+     <div style={{display: "flex", justifyContent: "space-between"}}>
+          <Card style={{width: "1400px",}}>
+            <Row>
+            {search.length < 1 ? filteredData.map((item, index) => {         
+              return <Product key={index} product={item} />
+            }) : searchProduct}
+            </Row>
+          </Card>
+          <Card style={{width: "500px", background:"#ffffff"}}>
+            <Cart/>
+          </Card>
      </div>
-     {/* card product 
-      <div className="product">
-        <Row gutter={[16, 16]}>
-          {productData.map((product,index) => (
-            <Col key={index + 2} xs={24} sm={12} md={8} lg={6} xl={6}>
-              <Product product={product}/>
-            </Col>
-          ))}
-
-        </Row>
-      </div>*/}
-      <Row>
-        {filteredData.map((product,index) => (
-          <Col key={index + 2} xs={24} sm={12} md={8} lg={6} xl={6}>
-            <Product product={product}/>
-          </Col>
-
-        ))}
-
-    { /* {productData.filter((i) => i.category === selectedCategory).map((product,index) => (
-          <Col xs={24} sm={6} md={12} lg={6}>
-            <Product key={index+2} product={product} />
-          </Col>
-    ))} */}
-      </Row>
-
+  </div>
     </LayoutApp>
   )
 }
