@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import { Button, Card } from 'antd';
 import { useDispatch } from 'react-redux';
 
 const Product = ({product}) => {
   const dispatch = useDispatch();
+  const { Meta } = Card;
 
   const handlerToCart = () => {
     dispatch({
@@ -12,19 +13,17 @@ const Product = ({product}) => {
     })
   }
 
-    const { Meta } = Card;
-
   return (
     <Card
         hoverable
-        style={{ width: 240, marginBottom: 30}}
-        cover={<img alt={product.name} src={product.image} style={{height: 200}} />}
-    >
-        <Meta title={product.name} description={`$${product.price}`} />
+        style={{ width: "23%", marginBottom: 30, marginRight: 20, cursor: "pointer" }}
+        cover={<img alt={product.name} src={product[4]} style={{height: 200}} />} >
+        <Meta title={product.name} description={`${product.price} บาท`}  />
         <div className="product-btn">
-          <Button onClick={() => handlerToCart()}>Add To Cart</Button>
+          <Button type="" onClick={() => handlerToCart()}>เพิ่มลงตะกร้า</Button>
         </div>
     </Card>
+    
   )
 }
 

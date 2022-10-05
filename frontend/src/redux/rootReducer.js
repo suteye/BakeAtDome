@@ -28,7 +28,8 @@ export const rootReducer = (state = initialState, action) => {
         case "DELETE_FROM_CART":
         return {
             ...state,
-            cartItems: state.cartItems.filter((product) => product._id !== action.payload._id),
+            //delete the product from the cart by index
+            cartItems: state.cartItems.filter((index) => index !== action.payload)
         };
         default: return state;
     }

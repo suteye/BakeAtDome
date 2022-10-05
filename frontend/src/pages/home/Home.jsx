@@ -1,31 +1,22 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
+import { Row, Input, Select, Card} from 'antd';
 import LayoutApp from '../../components/Layout'
-import { Row, Col } from 'antd';
 import Product from '../../components/Product';
 import { useDispatch } from 'react-redux';
+import Cart from '../../components/Cart';
+
+
+
 
 const Home = () => {
 
   const dispatch = useDispatch();
 
   const [productData, setProductData] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('pizzas');
-  const categories = [
-    {
-      name: "pizzas",
-      imageUrl: "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/27954/pizza-pepperoni-clipart-xl.png",
-    },
-    {
-      name: "burgers",
-      imageUrl: "https://cdn.pixabay.com/photo/2022/01/04/23/00/fast-food-6916101_960_720.png",
-    },
-    {
-      name: "drinks",
-      imageUrl: "https://images.vexels.com/media/users/3/246333/isolated/preview/9626dce3278f72220ea2736de64e6233-pink-cocktail-color-stroke.png",
-    },
+  const [selectedCategory, setSelectedCategory] = useState([])
 
-  ]
+  const [search, setSearch]  =  useState("")
 
   useEffect(() => {
     const getAllProducts = async () => {
@@ -33,12 +24,13 @@ const Home = () => {
           dispatch({
             type: "SHOW_LOADING",
           });
-          const {data} = await axios.get('/api/products/getproducts');
+          const {data} = await axios.get('http://localhost:5500/api/products/getProducts');
           setProductData(data);
+          
           dispatch({
             type: "HIDE_LOADING",
           });
-          console.log(data);
+          //console.log(data);
 
         } catch(error) {
           console.log(error);
@@ -48,24 +40,81 @@ const Home = () => {
       getAllProducts();
   }, [dispatch]);
   
+  //search function
+
+
+  const handleCategory = (e) => {
+    setSelectedCategory(e);
+    console.log(e);
+  }
+
+  const { Option } = Select;
+  const selectBefore = (
+    <Select defaultValue="ทั้งหมด" className="select-before" onChange={(e) => handleCategory(e)}>
+      <Option value="ทั้งหมด">ทั้งหมด</Option>
+      <Option value="ขนมเพื่อสุขภาพ">ขนมเพื่อสุขภาพ</Option>
+      <Option value="เค้ก">เค้ก</Option>
+      <Option value="ขนมปัง">ขนมปัง</Option>
+      <Option value="คุกกี้">คุกกี้</Option>
+      <Option value="อื่นๆ">อื่นๆ</Option>
+      <Option value="เครื่องดื่มร้อน">เครื่องดื่มร้อน</Option>
+      <Option value="เครื่องดื่มเย็น">เครื่องดื่มเย็น</Option>
+      <Option value="เครื่องดื่มปั่น">เครื่องดื่มปั่น</Option>
+    </Select>
+  );
+
+  function getFilteredData() {
+    switch (selectedCategory) {
+      case "ทั้งหมด":
+        return productData;
+      case "ขนมเพื่อสุขภาพ":
+        return productData.filter((item) => item.category === "ขนมเพื่อสุขภาพ");
+      case "เค้ก":
+        return productData.filter((product) => product.category === "เค้ก");
+      case "ขนมปัง":
+        return productData.filter((product) => product.category === "ขนมปัง");
+      case "คุกกี้":
+        return productData.filter((product) => product.category === "คุกกี้");
+      case "อื่นๆ":
+        return productData.filter((product) => product.category === "อื่นๆ");
+      case "เครื่องดื่มร้อน":
+        return productData.filter((product) => product.category === "เครื่องดื่มร้อน");
+      case "เครื่องดื่มเย็น":
+        return productData.filter((product) => product.category === "เครื่องดื่มเย็น");
+      case "เครื่องดื่มปั่น":
+        return productData.filter((product) => product.category === "เครื่องดื่มปั่น");
+      default:
+        return productData;
+    }
+  }
+  var filteredData = getFilteredData(); 
+
+  
+  const searchProduct = productData.filter((product => {
+    return product.name.includes(search);
+  })).map((item, index) => {
+    return <Product key={index} product={item} />
+  });
 
   return (
     <LayoutApp>
+      <div className="container">
       <div className="category">
-        {categories.map((category) => (
-          <div key={category.name} className={`categoryFlex ${selectedCategory === category.name && 'category-active'}`} onClick={() => setSelectedCategory(category.name)}>
-            <h3 className="categoryName">{category.name}</h3>
-            <img src={category.imageUrl} alt={category.name} height={60} width={60} />
-          </div>
-        ))}
+        <Input addonBefore={selectBefore}  size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
       </div>
-      <Row>
-        {productData.filter((i) => i.category === selectedCategory).map((product) => (
-          <Col xs={24} sm={6} md={12} lg={6}>
-            <Product key={product.id} product={product} />
-          </Col>
-        ))}
-      </Row>
+     <div style={{display: "flex", justifyContent: "space-between"}}>
+          <Card style={{width: "1400px",}}>
+            <Row>
+            {search.length < 1 ? filteredData.map((item, index) => {         
+              return <Product key={index} product={item} />
+            }) : searchProduct}
+            </Row>
+          </Card>
+          <Card style={{width: "500px", background:"#ffffff"}}>
+            <Cart/>
+          </Card>
+     </div>
+  </div>
     </LayoutApp>
   )
 }

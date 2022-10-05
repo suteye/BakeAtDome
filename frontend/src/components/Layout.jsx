@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Menu } from 'antd';
+import { Breadcrumb,Card,Layout, Menu } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   HomeOutlined,
   UserSwitchOutlined,
   MoneyCollectOutlined,
-  LogoutOutlined,
-  ShoppingCartOutlined
+  LogoutOutlined
 } from '@ant-design/icons';
 import './layout.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -30,54 +29,52 @@ const LayoutApp = ({children}) => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems))
   }, [cartItems]);
 
+  
+
   return (
-    <Layout>
-      {loading && <Spinner />}
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+    <Layout
+
+    style={{
+      minHeight: '100vh',
+    }}
+  >
+    <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="logo">
-            <h2 className="logo-title">MP POS</h2>
+            <h2 className="logo-title">Bake@Dome</h2>
         </div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={window.location.pathname}>
+      <Menu theme="dark" defaultSelectedKeys={window.location.pathname} mode="inline"  >
             <Menu.Item key='/' icon={<HomeOutlined />}>
-                <Link to="/">Home</Link>
+                <Link to="/">หน้าขาย</Link>
             </Menu.Item>
             <Menu.Item key='/bills' icon={<MoneyCollectOutlined />}>
-                <Link to="/bills">Bills</Link>
+                <Link to="/bills">ประวัติการขาย</Link>
             </Menu.Item>
             <Menu.Item key="/products" icon={<HomeOutlined />}>
-                <Link to="/products">Products</Link>
+                <Link to="/products">สต็อก</Link>
             </Menu.Item>
             <Menu.Item key='/customers' icon={<UserSwitchOutlined />}>
-                <Link to="/customers">Customers</Link>
+                <Link to="/customers">พนักงาน</Link>
             </Menu.Item>
             <Menu.Item key='/logout' icon={<LogoutOutlined />} onClick={() => {localStorage.removeItem("auth"); navigate("/login");}}>
-                LogOut
+                ออกจากระบบ
             </Menu.Item>
-        </Menu>
-      </Sider>
-      <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }}>
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: toggle,
-          })}
-          <div className="cart-items" onClick={() => navigate('/cart')}>
-            <ShoppingCartOutlined />
-            <span className="cart-badge">{cartItems.length}</span>
-          </div>
-        </Header>
-        <Content
-          className="site-layout-background"
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-          }}
-        >
-          {children}
-        </Content>
-      </Layout>
+      </Menu>
+    </Sider>
+    <Layout className="site-layout">
+      <Header className="site-layout-background" style={{ padding: 0}}>
+      </Header>
+      <Content style={{ margin: '0 16px'  }}>
+        <Breadcrumb style={{  margin: '16px 0'  }}>
+          <Breadcrumb.Item>User</Breadcrumb.Item>
+          <Breadcrumb.Item>Bill</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="site-layout-background"style={{padding: 24, minHeight: 360}}>
+          {loading ? <Spinner /> : children}
+        </div>
+      </Content>
     </Layout>
+
+  </Layout>
   );
 };
 
