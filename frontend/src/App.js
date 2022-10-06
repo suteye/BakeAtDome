@@ -14,30 +14,31 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={
-            <ProtectedRouter>
-              <Home />
-            </ProtectedRouter>
-            } />
+          <Route path="/" element={ <Home />
+            /*<ProtectedRouter> */
+             
+           /* </ProtectedRouter> */
+          }
+             />
           <Route path="/products" element={
-            <ProtectedRouter>
+            //<ProtectedRouter>
               <Products />
-            </ProtectedRouter>
+           // </ProtectedRouter>
             } />
           <Route path="/cart" element={
-            <ProtectedRouter>
+            //<ProtectedRouter>
               <Cart />
-            </ProtectedRouter>
+            //</ProtectedRouter>
             } />
             <Route path="/bills" element={
-            <ProtectedRouter>
+            //<ProtectedRouter>
               <Bills />
-            </ProtectedRouter>
+            //</ProtectedRouter>
             } />
             <Route path="/customers" element={
-            <ProtectedRouter>
+           // <ProtectedRouter>
               <Customers />
-            </ProtectedRouter>
+            //</ProtectedRouter>
             } />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -49,10 +50,10 @@ function App() {
 
 export default App;
 
-export function ProtectedRouter({children}) {
+/*export function ProtectedRouter({children}) {
   if(localStorage.getItem("auth")) {
     return children;
   } else {
     return <Navigate to="/login" />
   }
-}
+} */

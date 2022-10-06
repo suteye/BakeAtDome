@@ -1,0 +1,27 @@
+{
+  "name": "tumoreread",
+  "version": "1.0.0",
+  "description": "TU More Read is a POS (point-of-sale) system used within bookstores that is used to sell books, manage financial transactions, control and check the total number of books within the store. TU More Read is developed from the MERN Point of Sale, so TU More Read will use MongoDB, Express, React, and Node.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "npm run server --prefix backend",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently 'npm run server' 'npm run client'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suteye/TuMoreRead.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suteye/TuMoreRead/issues"
+  },
+  "homepage": "https://github.com/suteye/TuMoreRead#readme",
+  "dependencies": {
+    "concurrently": "^7.4.0",
+    "protractor": "^7.0.0"
+  }
+}
