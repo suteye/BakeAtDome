@@ -1,3 +1,4 @@
+# BrightBct has arrived!
 # Bake@Dome <a href="https://youtu.be/s-VStr__320"><img src="https://img.shields.io/badge/click-for%20source%20code-orange" alt="Source Code Badge"></a>
 
 Bake@Dome is a POS (point-of-sale) system used within Bake@Dome that is used to sell bakery and drinks, manage financial transactions, control and check the total number of bakery and drinks within the store. Bake@Dome is developed from the MERN Point of Sale, so Bake@Dome  will use Google Sheets, Express, React, and Node.
