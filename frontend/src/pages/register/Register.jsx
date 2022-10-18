@@ -15,8 +15,9 @@ const Register = () => {
       dispatch({
         type: "SHOW_LOADING",
       });
-      await axios.post('/api/users/register', value);
-      message.success("Register Successfully!");
+      await axios.post('http://localhost:5500/api/users/register', value);
+      //msg from backend ap
+      message.success("User Create Successfully!");
       navigate("/login");
       dispatch({
         type: "HIDE_LOADING",
@@ -27,7 +28,7 @@ const Register = () => {
       dispatch({
         type: "HIDE_LOADING",
       });
-      message.error("Error!")
+      message.error("Error!") 
       console.log(error);
     }
   }
@@ -46,14 +47,29 @@ const Register = () => {
         <p>Register</p>
         <div className="form-group">
           <Form layout='vertical' onFinish={handlerSubmit}>
-            <FormItem name="name" label="Name">
-              <Input/>
-            </FormItem>
-            <FormItem name="userId" label="User ID">
+            <FormItem name="username" label="username">
               <Input/>
             </FormItem>
             <FormItem name="password" label="Password">
               <Input type="password"/>
+            </FormItem>
+            <FormItem name="confirmPassword" label="Confirm Password">
+              <Input type="password"/>
+            </FormItem>
+            <FormItem name="email" label="Email">
+              <Input type='email'/>
+            </FormItem>
+            <FormItem name="role" label="Role">
+              <Input/>
+            </FormItem>
+            <FormItem name="firstname" label="First Name">
+              <Input/>
+            </FormItem>
+            <FormItem name="lastname" label="Last Name">
+              <Input/>
+            </FormItem>
+            <FormItem name="phone" label="Phone">
+              <Input/>
             </FormItem>
             <div className="form-btn-add">
               <Button htmlType='submit' className='add-new'>Register</Button>

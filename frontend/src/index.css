@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@300;400;500;600;700&display=swap');
 
 * {
   margin: 0;
@@ -235,20 +235,15 @@ body {
   color: #ffffff;
 }
 
-.add-new {
+.login-btn {
   display: block !important;
   margin: 0 0 15px auto !important;
-  background-color: #001e28 !important;
+  background-color: #4F5D75 !important;
+  border-radius: 5px;
   color: #ffffff !important;
-  box-shadow: 0 0 5px #001e28 !important;
-  transition: all 0.5s;
   border: none !important;
 }
 
-.add-new:hover {
-  background-color: #ffffff !important;
-  color: #001e28 !important;
-}
 
 .category {
   display: flex;
@@ -284,37 +279,32 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  font-family: 'IBM Plex Sans Thai Looped', sans-serif;
 }
 
-.form h2 {
-  letter-spacing: 2px;
-  color: #001e28;
-}
-
-.form p {
-  letter-spacing: 1.3px;
-  color: #001e28;
+.form h1{
+  font-family: 'IBM Plex Sans Thai Looped', sans-serif;
+  font-weight: 700;
 }
 
 .form-group {
-  box-shadow: 0 0 5px #001e28;
-  padding: 10px 5px;
-  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 60px;
+  gap: 32px;
+  position: absolute;
+  background: #F5F5F5;
+  box-shadow: 0px 289px 116px rgba(0, 0, 0, 0.01), 0px 163px 98px rgba(0, 0, 0, 0.05), 0px 72px 72px rgba(0, 0, 0, 0.09), 0px 18px 40px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .form-group input {
-  border: none;
-  outline: none !important;
-  border-bottom: 1px solid #001e28;
   width: 350px;
   height: 40px;
   padding: 5px 15px;
 }
 
-.form-group input:focus,
-.form-group input:hover {
-  border-color: #001e28;
-}
 
 .form-other {
   color: #001e28;

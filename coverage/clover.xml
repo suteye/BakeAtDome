@@ -1,6 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1665039066859" clover="3.2.0">
-  <project timestamp="1665039066859" name="All files">
-    <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0" elements="0" coveredelements="0" complexity="0" loc="0" ncloc="0" packages="0" files="0" classes="0"/>
+<coverage generated="1665467612184" clover="3.2.0">
+  <project timestamp="1665467612184" name="All files">
+    <metrics statements="80" coveredstatements="6" conditionals="16" coveredconditionals="0" methods="40" coveredmethods="0" elements="136" coveredelements="6" complexity="0" loc="80" ncloc="80" packages="2" files="5" classes="5"/>
+    <package name="components">
+      <metrics statements="43" coveredstatements="5" conditionals="4" coveredconditionals="0" methods="22" coveredmethods="0"/>
+      <file name="Cart.jsx" path="/Users/eye/Desktop/รวมไฟล์งานปี3 เทอม1/CS360/project/TuMoreRead/frontend/src/components/Cart.jsx">
+        <metrics statements="22" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="12" coveredmethods="0"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="74" count="0" type="stmt"/>
+      </file>
+      <file name="Layout.jsx" path="/Users/eye/Desktop/รวมไฟล์งานปี3 เทอม1/CS360/project/TuMoreRead/frontend/src/components/Layout.jsx">
+        <metrics statements="12" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+      </file>
+      <file name="Product.jsx" path="/Users/eye/Desktop/รวมไฟล์งานปี3 เทอม1/CS360/project/TuMoreRead/frontend/src/components/Product.jsx">
+        <metrics statements="7" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+      </file>
+      <file name="Spinner.jsx" path="/Users/eye/Desktop/รวมไฟล์งานปี3 เทอม1/CS360/project/TuMoreRead/frontend/src/components/Spinner.jsx">
+        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="pages.home">
+      <metrics statements="37" coveredstatements="1" conditionals="12" coveredconditionals="0" methods="18" coveredmethods="0"/>
+      <file name="Home.jsx" path="/Users/eye/Desktop/รวมไฟล์งานปี3 เทอม1/CS360/project/TuMoreRead/frontend/src/pages/home/Home.jsx">
+        <metrics statements="37" coveredstatements="1" conditionals="12" coveredconditionals="0" methods="18" coveredmethods="0"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="67" count="0" type="cond" truecount="0" falsecount="10"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="75" count="0" type="stmt"/>
+        <line num="77" count="0" type="stmt"/>
+        <line num="79" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="83" count="0" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="96" count="0" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="109" count="0" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>
