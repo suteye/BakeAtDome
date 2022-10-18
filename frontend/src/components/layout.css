@@ -4,11 +4,15 @@
     font-family: 'IBM Plex Sans Thai Looped', sans-serif;
 }
 .ant-layout-sider {
-    background: #001e28;
+    background: #2d3142;
+}
+
+.ant-layout-sider-trigger {
+    background-color: #2d3142;
 }
 
 .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark, .ant-menu.ant-menu-dark .ant-menu-sub {
-    background: #001e28;
+    background: #2d3142;
 }
 
 .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
@@ -33,9 +37,9 @@
     background: rgba(255, 255, 255, 0.3);
 }
   
-/*.site-layout .site-layout-background {
-    background: #fff;
-}*/
+.site-layout .site-layout-background {
+    background: #2d3142;
+}
 
 .ant-layout.ant-layout-has-sider {
     min-height: 100vh;
@@ -59,7 +63,7 @@
 }
 
 .logo-title {
+    margin: 15px;
     letter-spacing: 1.3px;
     color: #ffffff;
 }
-

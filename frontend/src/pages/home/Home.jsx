@@ -100,7 +100,7 @@ const Home = () => {
     <LayoutApp>
       <div className="container">
       <div className="category">
-        <Input addonBefore={selectBefore}  size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
+        <Input addonBefore={selectBefore} size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
       </div>
      <div style={{display: "flex", justifyContent: "space-between"}}>
           <Card style={{width: "1400px",}}>

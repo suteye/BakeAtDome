@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb,Card,Layout, Menu } from 'antd';
+import { Breadcrumb, Card, Layout, Menu } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  ShopOutlined,
   HomeOutlined,
   UserSwitchOutlined,
-  MoneyCollectOutlined,
-  LogoutOutlined
+  HistoryOutlined,
+  LogoutOutlined,
+  BarChartOutlined
 } from '@ant-design/icons';
 import './layout.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -43,17 +45,20 @@ const LayoutApp = ({children}) => {
             <h2 className="logo-title">Bake@Dome</h2>
         </div>
       <Menu theme="dark" defaultSelectedKeys={window.location.pathname} mode="inline"  >
-            <Menu.Item key='/' icon={<HomeOutlined />}>
+           <Menu.Item key='/dashboards' icon={<BarChartOutlined />}>
+                <Link to="/dashboards">แดชบอร์ด</Link>
+            </Menu.Item>
+            <Menu.Item key='/' icon={<ShopOutlined />}>
                 <Link to="/">หน้าขาย</Link>
             </Menu.Item>
-            <Menu.Item key='/bills' icon={<MoneyCollectOutlined />}>
+            <Menu.Item key='/bills' icon={<HistoryOutlined />}>
                 <Link to="/bills">ประวัติการขาย</Link>
             </Menu.Item>
             <Menu.Item key="/products" icon={<HomeOutlined />}>
                 <Link to="/products">สต็อก</Link>
             </Menu.Item>
-            <Menu.Item key='/customers' icon={<UserSwitchOutlined />}>
-                <Link to="/customers">พนักงาน</Link>
+            <Menu.Item key='/employees' icon={<UserSwitchOutlined />}>
+                <Link to="/employees">พนักงาน</Link>
             </Menu.Item>
             <Menu.Item key='/logout' icon={<LogoutOutlined />} onClick={() => {localStorage.removeItem("auth"); navigate("/login");}}>
                 ออกจากระบบ
@@ -68,7 +73,7 @@ const LayoutApp = ({children}) => {
           <Breadcrumb.Item>User</Breadcrumb.Item>
           <Breadcrumb.Item>Bill</Breadcrumb.Item>
         </Breadcrumb>
-        <div className="site-layout-background"style={{padding: 24, minHeight: 360}}>
+        <div style={{padding: 24, minHeight: 360}}>
           {loading ? <Spinner /> : children}
         </div>
       </Content>
