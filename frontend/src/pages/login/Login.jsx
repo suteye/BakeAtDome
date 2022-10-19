@@ -1,4 +1,5 @@
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input, message,Space } from 'antd';
+import { EyeInvisibleOutlined, EyeTwoTone,UserOutlined } from '@ant-design/icons';
 import FormItem from 'antd/lib/form/FormItem';
 import axios from 'axios';
 import React, { useEffect } from 'react'
@@ -16,7 +17,7 @@ const Login = () => {
       dispatch({
         type: "SHOW_LOADING",
       });
-      const res = await axios.post('/api/users/login', value);
+      const res = await axios.post('http://localhost:5500/api/auth/login', value);
       dispatch({
         type: "HIDE_LOADING",
       });
@@ -42,22 +43,24 @@ const Login = () => {
     
   }, [navigate]);
 
+
   return (
     <div className='form'>
-        <h2>MP POS</h2>
-        <p>Login</p>
         <div className="form-group">
+          <h1 className='head'>BAKE@DOME</h1>
           <Form layout='vertical' onFinish={handlerSubmit}>
-            <FormItem name="userId" label="User ID">
-              <Input/>
+            <FormItem name="username" label="Username">
+              <Input size="large" name="username" placeholder="กรุณาใส่ Username"  suffix={<UserOutlined/>}/>
             </FormItem>
             <FormItem name="password" label="Password">
-              <Input type="password"/>
+            <Space direction="vertical">
+              <Input.Password placeholder="กรุณาใส่ Password" name='password' iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} />
+            </Space>
             </FormItem>
             <div className="form-btn-add">
-              <Button htmlType='submit' className='add-new'>Login</Button>
-              <Link className='form-other' to="/register">Register Here!</Link>
+              <Button htmlType='submit' size='large' block className='login-btn'>Login</Button>
             </div>
+
           </Form>
         </div>
     </div>

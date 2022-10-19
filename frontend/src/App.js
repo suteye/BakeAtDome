@@ -11,8 +11,7 @@ import Customers from './pages/customers/Customers';
 
 function App() {
   return (
-    <>
-      <Router>
+    <div>
         <Routes>
           <Route path="/" element={ <Home />
             /*<ProtectedRouter> */
@@ -43,8 +42,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
-      </Router>
-    </>
+    </div> 
   );
 }
 
