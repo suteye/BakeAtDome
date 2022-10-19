@@ -1,5 +1,5 @@
 TN:
-SF:frontend/src/components/Cart.jsx
+SF:frontend\src\components\Cart.jsx
 FN:7,(anonymous_0)
 FN:8,(anonymous_1)
 FN:15,(anonymous_2)
@@ -56,7 +56,7 @@ BRF:2
 BRH:0
 end_of_record
 TN:
-SF:frontend/src/components/Layout.jsx
+SF:frontend\src\components\Layout.jsx
 FN:18,(anonymous_0)
 FN:19,(anonymous_1)
 FN:24,(anonymous_2)
@@ -91,7 +91,7 @@ BRF:2
 BRH:0
 end_of_record
 TN:
-SF:frontend/src/components/Product.jsx
+SF:frontend\src\components\Product.jsx
 FN:5,(anonymous_0)
 FN:9,(anonymous_1)
 FN:23,(anonymous_2)
@@ -113,7 +113,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:frontend/src/components/Spinner.jsx
+SF:frontend\src\components\Spinner.jsx
 FN:3,(anonymous_0)
 FNF:1
 FNH:0
@@ -126,7 +126,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:frontend/src/pages/home/Home.jsx
+SF:frontend\src\pages\home\Home.jsx
 FN:12,(anonymous_0)
 FN:21,(anonymous_1)
 FN:22,(anonymous_2)

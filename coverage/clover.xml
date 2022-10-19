@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1665467612184" clover="3.2.0">
-  <project timestamp="1665467612184" name="All files">
+<coverage generated="1665460651671" clover="3.2.0">
+  <project timestamp="1665460651672" name="All files">
     <metrics statements="80" coveredstatements="6" conditionals="16" coveredconditionals="0" methods="40" coveredmethods="0" elements="136" coveredelements="6" complexity="0" loc="80" ncloc="80" packages="2" files="5" classes="5"/>
     <package name="components">
       <metrics statements="43" coveredstatements="5" conditionals="4" coveredconditionals="0" methods="22" coveredmethods="0"/>
-      <file name="Cart.jsx" path="/Users/eye/Desktop/รวมไฟล์งานปี3 เทอม1/CS360/project/TuMoreRead/frontend/src/components/Cart.jsx">
+      <file name="Cart.jsx" path="C:\Users\bcbri\Bright\CS360\Github\BakeAtDome\frontend\src\components\Cart.jsx">
         <metrics statements="22" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="12" coveredmethods="0"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
@@ -29,7 +29,7 @@
         <line num="73" count="0" type="stmt"/>
         <line num="74" count="0" type="stmt"/>
       </file>
-      <file name="Layout.jsx" path="/Users/eye/Desktop/รวมไฟล์งานปี3 เทอม1/CS360/project/TuMoreRead/frontend/src/components/Layout.jsx">
+      <file name="Layout.jsx" path="C:\Users\bcbri\Bright\CS360\Github\BakeAtDome\frontend\src\components\Layout.jsx">
         <metrics statements="12" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="16" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
@@ -44,7 +44,7 @@
         <line num="41" count="0" type="stmt"/>
         <line num="58" count="0" type="stmt"/>
       </file>
-      <file name="Product.jsx" path="/Users/eye/Desktop/รวมไฟล์งานปี3 เทอม1/CS360/project/TuMoreRead/frontend/src/components/Product.jsx">
+      <file name="Product.jsx" path="C:\Users\bcbri\Bright\CS360\Github\BakeAtDome\frontend\src\components\Product.jsx">
         <metrics statements="7" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
@@ -54,7 +54,7 @@
         <line num="16" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
       </file>
-      <file name="Spinner.jsx" path="/Users/eye/Desktop/รวมไฟล์งานปี3 เทอม1/CS360/project/TuMoreRead/frontend/src/components/Spinner.jsx">
+      <file name="Spinner.jsx" path="C:\Users\bcbri\Bright\CS360\Github\BakeAtDome\frontend\src\components\Spinner.jsx">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
@@ -62,7 +62,7 @@
     </package>
     <package name="pages.home">
       <metrics statements="37" coveredstatements="1" conditionals="12" coveredconditionals="0" methods="18" coveredmethods="0"/>
-      <file name="Home.jsx" path="/Users/eye/Desktop/รวมไฟล์งานปี3 เทอม1/CS360/project/TuMoreRead/frontend/src/pages/home/Home.jsx">
+      <file name="Home.jsx" path="C:\Users\bcbri\Bright\CS360\Github\BakeAtDome\frontend\src\pages\home\Home.jsx">
         <metrics statements="37" coveredstatements="1" conditionals="12" coveredconditionals="0" methods="18" coveredmethods="0"/>
         <line num="12" count="1" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
