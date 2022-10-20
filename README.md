@@ -2,6 +2,7 @@
 
 Bake@Dome is a POS (point-of-sale) system used within Bake@Dome that is used to sell bakery and drinks, manage financial transactions, control and check the total number of bakery and drinks within the store. Bake@Dome is developed from the MERN Point of Sale, so Bake@Dome  will use Google Sheets, Express, React, and Node.
 
+MIDTERM TEST GAIL
 
 ## 📮 Current Function
 - [x] 🔒 login with user id and password
