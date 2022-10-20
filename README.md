@@ -15,11 +15,14 @@ Bake@Dome is a POS (point-of-sale) system used within Bake@Dome that is used to 
 - [x] 📇 print invoice 
 
 ## ⏳ Future Function
-- [ ] 🔐  authentication login
-- [ ]  ⛔️ remove registering a new user because it's not necessary for the POS system.
-- [ ] 🔎  search item
+- [x] 🔐  authentication login
+- [x]  ⛔️ remove registering a new user because it's not necessary for the POS system.
+- [x] 🔎  search item
 - [ ] 🗒  show detail product
-- [ ] 🛍  loyalty program and point redeem
+- [ ] 📦 stock product
+- [ ] 👩🏻‍🍳 add delete edit employee 
+- [ ] 📊 dashboard 
+
 
 
 
