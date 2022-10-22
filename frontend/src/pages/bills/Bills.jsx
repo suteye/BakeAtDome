@@ -1,18 +1,19 @@
-import { Button, Modal, Table } from 'antd';
+import { Button, Modal, Table, Input, Select} from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react'
 import ReactToPrint from 'react-to-print';
 import { useReactToPrint } from 'react-to-print';
-import { EyeOutlined } from '@ant-design/icons';
+import { EyeOutlined, SearchOutlined} from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import Layout from '../../components/Layout'
 
 const Bills = () => {
-    const componentRef = useRef();
-    const dispatch = useDispatch();
+const componentRef = useRef();
+const dispatch = useDispatch();
   const [billsData, setBillsData] = useState([]);
   const [popModal, setPopModal] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
+  const [search, setSearch]  =  useState("")
 
   const getAllBills = async () => {
     try {
@@ -42,36 +43,32 @@ const Bills = () => {
 
   const columns = [
     {
-        title: "ID",
-        dataIndex: "_id"
+        title: "จำนวนรายการ",
+        dataIndex: "amountOrder"
     },
     {
-        title: "Customer Name",
-        dataIndex: "customerName",
+        title: "รหัสใบเสร็จ",
+        dataIndex: "billID",
     }, 
     {
-        title: "Contact Number",
-        dataIndex: "customerPhone",
+        title: "พนักงาน",
+        dataIndex: "customerName",
     }
     , 
     {
-        title: "Customer Address",
-        dataIndex: "customerAddress",
+        title: "วันที่สร้าง",
+        dataIndex: "date",
     },
     {
-        title: "Sub Total",
-        dataIndex: "subTotal",
-    },
-    {
-        title: "Tax",
-        dataIndex: "tax",
-    },
-    {
-        title: "Total Amount",
+        title: "ยอดรวม",
         dataIndex: "totalAmount",
     },
     {
-        title: "Action",
+        title: "ชำระผ่าน",
+        dataIndex: "payBy",
+    },
+    {
+        title: "จัดการ",
         dataIndex: "_id",
         render:(id, record) => 
         <div>
@@ -87,9 +84,12 @@ const Bills = () => {
 
   return (
     <Layout>
-        <h2>All Invoice </h2>
-      <Table dataSource={billsData} columns={columns} bordered />
       
+      <div style={{display: 'flex', marginBottom: '50px' }}>
+        <p style={{borderRadius: '5px 0px 0px 5px', width: '7rem', border: '1px solid', borderColor: '#cecece', background: '#fafafa', textAlign:"center", marginBottom: '0px', paddingTop: '10px'}}>เลขที่บิล</p>
+        <Input style={{width: '25rem', borderRadius: '0px 5px 5px 0px'}} size="large" placeholder="ค้นหารหัสใบเสร็จ" onChange={e => setSearch(e.target.value)} value={search}/>
+      </div>
+      <Table dataSource={billsData} columns={columns} bordered />
       {
         popModal && 
         <Modal title="Invoice Details" width={400} pagination={false} visible={popModal} onCancel={() => setPopModal(false)} footer={false}>
@@ -153,7 +153,7 @@ const Bills = () => {
             </div>
           </div>
           <div className="bills-btn-add">
-            <Button onClick={handlePrint} htmlType='submit' className='add-new'>Generate Invoice</Button>
+            <Button onClick={handlePrint} htmlType='submit' className='add-new'>พิมพ์ใบเสร็จ</Button>
         </div>  
         </Modal>
       }

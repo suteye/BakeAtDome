@@ -7,7 +7,8 @@ import Cart from './pages/cart/Cart';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Bills from './pages/bills/Bills';
-import Customers from './pages/customers/Customers';
+import Employees from './pages/employees/Employees';
+import Dashboards from './pages/dashboards/Dashboards' ;
 
 function App() {
   return (
@@ -34,10 +35,15 @@ function App() {
               <Bills />
             //</ProtectedRouter>
             } />
-            <Route path="/customers" element={
+            <Route path="/employees" element={
            // <ProtectedRouter>
-              <Customers />
+              <Employees />
             //</ProtectedRouter>
+            } />
+            <Route path="/dashboards" element={
+              //<ProtectedRouter>
+              <Dashboards />
+              //</ProtectedRouter>
             } />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

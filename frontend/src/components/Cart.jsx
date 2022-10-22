@@ -51,13 +51,13 @@ const Cart = () => {
         <div style={{display: "flex", justifyContent: "space-between"}}>
             <div className="cart-payment">
                 <span className='title-wrapper'>รวม ฿</span> 
-                <span className="value-wrapper grand-total">
+                <span className="value-wrapper grand-total" style={{color: "#EF8355"}}>
                 {(subTotal.toFixed(2))}
                 </span>
             </div>
         </div>
         <Row>
-            <Button type="primary" block size='large'  onClick={handlerCheckout}>ชำระเงิน</Button>
+            <Button style={{ backgroundColor: '#EF8355', borderColor: '#EF8355', color: "white"}} block size='large'  onClick={handlerCheckout}>ชำระเงิน</Button>
         </Row>
             {/* block order */}
             <div style={{zIndex:1, position:'relative'}}>
