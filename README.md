@@ -15,11 +15,14 @@ Bake@Dome is a POS (point-of-sale) system used within Bake@Dome that is used to 
 - [x] 📇 print invoice 
 
 ## ⏳ Future Function
-- [ ] 🔐  authentication login
-- [ ]  ⛔️ remove registering a new user because it's not necessary for the POS system.
-- [ ] 🔎  search item
+- [x] 🔐  authentication login
+- [x]  ⛔️ remove registering a new user because it's not necessary for the POS system.
+- [x] 🔎  search item
 - [ ] 🗒  show detail product
-- [ ] 🛍  loyalty program and point redeem
+- [ ] 📦 stock product
+- [ ] 👩🏻‍🍳 add delete edit employee 
+- [ ] 📊 dashboard 
+
 
 
 
@@ -40,7 +43,7 @@ frontend: ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-th
 backend: ![Nodejs](https://img.shields.io/badge/nodejs-%2361DAFB.svg?style=for-the-badge&logo=nodejs&logoColor=%2361DAFB) 
 
 
-database: ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+database: Google Sheets
 
 
 
@@ -49,7 +52,6 @@ database: ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=fo
 
 - Download and install [Node.js](https://nodejs.org/en/).
 - Download and install [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
-- Download and install [MongoDB for MacOS](https://nextflow.in.th/2017/install-and-start-mongodb-macos-osx-thai/) and [MongoDB for Window](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/).
 -  Download and install the latest version of [git.](https://git-scm.com/downloads)
 - Configure git with your [username](https://docs.github.com/en/github/using-git/setting-your-username-in-git) and [email](https://docs.github.com/en/github/setting-up-and-managing-your-github-user-account/setting-your-commit-email-address).
   
@@ -58,7 +60,7 @@ database: ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=fo
   $ git config --global user.email 'your email'
     ```
 - Make sure you have a [GitHub account](https://github.com/join).
-- Clone the [TU More Read repository](https://github.com/suteye/POS.git) to your local machine.
+- Clone the [TU More Read repository](https://github.com/suteye/BakeAtDome.git) to your local machine.
   
   ```
     $ git clone https://github.com/suteye/POS.git 

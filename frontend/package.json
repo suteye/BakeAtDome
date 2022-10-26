@@ -4,6 +4,7 @@
   "proxy": "http://localhost:5500",
   "private": true,
   "dependencies": {
+    "@ant-design/charts": "^1.4.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
