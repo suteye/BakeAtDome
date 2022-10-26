@@ -50,13 +50,14 @@ exports.getProducts = async (req, res,next) => {
             valueRenderOption: "FORMATTED_VALUE",
             dateTimeRenderOption: "FORMATTED_STRING",
         });
-        //array to json object like {name: "name", price: "price", description: "description"}
+        //array to json object like {name: "name", price: "price", picture: "picture"}
         const products = rows.data.values.map((row) => {
             return {
                 category: row[0],
                 name: row[1],
                 size: row[2],
                 price: row[3],
+                picture: row[4],
             };
         });
         
