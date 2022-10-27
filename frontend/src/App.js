@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
+import {BrowserRouter as  Routes, Route, Navigate} from 'react-router-dom'
 import 'antd/dist/antd.min.css';
 import './App.css';
 import Home from './pages/home/Home';
@@ -35,12 +35,6 @@ function App() {
               <Bills />
             </ProtectedRouter>
             } />
-
-            <Route path="/customers" element={
-            <ProtectedRouter>
-              <Customers />
-            </ProtectedRouter>
-             } />
             <Route path="/employees" element={
              <ProtectedRouter>
               <Employees />
