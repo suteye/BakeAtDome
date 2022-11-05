@@ -10,6 +10,7 @@ import Bills from './pages/bills/Bills';
 import Employees from './pages/employees/Employees';
 import Dashboards from './pages/dashboards/Dashboards' ;
 
+
 function App() {
   return (
     <div>
@@ -56,7 +57,7 @@ function App() {
 export default App;
 
 export function ProtectedRouter({children}) {
-  if(localStorage.getItem("auth")) {
+  if(localStorage.getItem("authToken")) {
     return children;
   } else {
     return <Navigate to="/login" />
