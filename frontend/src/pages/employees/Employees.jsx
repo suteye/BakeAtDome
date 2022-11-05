@@ -1,8 +1,9 @@
-import { Button, Form, Input, Modal, Select, Table, message } from 'antd';
+import { Button, Form, Input, Modal, Select, Table } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import Swal from 'sweetalert2';
 import Layout from '../../components/Layout'
 import FormItem from 'antd/lib/form/FormItem'; //customers
 
@@ -12,18 +13,19 @@ const Employees = () => {
   const [employeesData, setEmployeesData] = useState([]);
   const [popModal, setPopModal] = useState(false);
   const [editEmployee, setEditEmployee] = useState(false);
+  
+
 
   const getAllEmployees = async () => {
     try {
       dispatch({
         type: "SHOW_LOADING",
       });
-      const {data} = await axios.get('/api/employees/getemployees');
+      const {data} = await axios.get('/api/employees/getEmployees');
       setEmployeesData(data);
       dispatch({
         type: "HIDE_LOADING",
       });
-      console.log(data);
 
     } catch(error) {
       dispatch({
@@ -35,27 +37,41 @@ const Employees = () => {
 
   useEffect(() => {
     getAllEmployees();
-  }, []);
+  }, []);  // eslint-disable-line
 
   const handlerDelete = async (record) => {
     try {
       dispatch({
         type: "SHOW_LOADING",
       });
-      await axios.post('/api/employees/deleteemployees', {employeeId:record._id});
-      message.success("Employees Deleted Successfully!")
-      getAllEmployees();
-      setPopModal(false);
+     await axios.post('/api/employees/deleteEmployees', {employeeId:record._id}).then((res) => {
+      let statusCode = res.status, message = res.data.message;
+      if(statusCode === 201) {
+        Swal.fire({
+          title: 'สำเร็จ',
+          text: message,
+          icon: 'success',
+          confirmButtonText: 'ตกลง'
+        });
+        getAllEmployees();
+        setPopModal(false);
+      } else {
+        Swal.fire({
+          title: 'ผิดพลาด',
+          text: message,
+          icon: 'error',
+          confirmButtonText: 'ตกลง'
+        });
+      }
+
+     });
       dispatch({
         type: "HIDE_LOADING",
-      });
-      
-
+      }); 
     } catch(error) {
       dispatch({
         type: "HIDE_LOADING",
       });
-      message.error("Error!")
       console.log(error);
     }
   }
@@ -91,16 +107,33 @@ const Employees = () => {
   ]
 
   const handlerSubmit = async (value) => {
-    //console.log(value);
-    if(editEmployee === null) {
+
+    if(editEmployee === false) {
       try {
         dispatch({
           type: "SHOW_LOADING",
         });
-        const res = await axios.post('/api/employees/addemployees', value);
-        message.success("Employee Added Successfully!")
-        getAllEmployees();
-        setPopModal(false);
+        await axios.post('/api/employees/addEmployees', value).then((res) => {
+          let statusCode = res.status, message = res.data.message;
+          if(statusCode === 201) {
+            Swal.fire({
+              title: 'สำเร็จ',
+              text: message,
+              icon: 'success',
+              confirmButtonText: 'ตกลง'
+            });
+            getAllEmployees();
+            setPopModal(false);
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด',
+              text: message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง'
+            });
+          }
+        });
+      
         dispatch({
           type: "HIDE_LOADING",
         });
@@ -110,7 +143,6 @@ const Employees = () => {
         dispatch({
           type: "HIDE_LOADING",
         });
-        message.error("Error!")
         console.log(error);
       }
     } else {
@@ -118,10 +150,27 @@ const Employees = () => {
         dispatch({
           type: "SHOW_LOADING",
         });
-       await axios.put('/api/employees/updateemployees', {...value, employeeId:editEmployee._id});
-        message.success("Employee Updated Successfully!")
-        getAllEmployees();
-        setPopModal(false);
+       await axios.put('/api/employees/updateEmployees', {...value, employeeId:editEmployee._id}).then((res) => {
+        let statusCode = res.status, message = res.data.message;
+        if(statusCode === 201) {
+          Swal.fire({
+            title: 'สำเร็จ',
+            text: message,
+            icon: 'success',
+            confirmButtonText: 'ตกลง'
+          });
+          getAllEmployees();
+          setPopModal(false);
+        } else {
+          Swal.fire({
+            title: 'ผิดพลาด',
+            text: message,
+            icon: 'error',
+            confirmButtonText: 'ตกลง'
+          });
+        }
+       });
+
         dispatch({
           type: "HIDE_LOADING",
         });
@@ -131,7 +180,6 @@ const Employees = () => {
         dispatch({
           type: "HIDE_LOADING",
         });
-        message.error("Error!")
         console.log(error);
       }
     }
@@ -144,23 +192,29 @@ const Employees = () => {
       
       {
         popModal && 
-        <Modal title={`${editEmployee !== null ? "แก้ไขข้อมูลพนักงาน" : "เพิ่มข้อมูลพนักงาน"}`} visible={popModal} onCancel={() => {setEditEmployee(null); setPopModal(false);}} footer={false}>
+        <Modal title={`${editEmployee !== false ? "แก้ไขข้อมูลพนักงาน" : "เพิ่มข้อมูลพนักงาน"}`} visible={popModal} onCancel={() => {setEditEmployee(null); setPopModal(false);}} footer={false}>
           <Form layout='vertical' initialValues={editEmployee} onFinish={handlerSubmit}>
-            <FormItem name="employeeName" label="ชื่อ-นามสกุล">
-              <Input/>
+            <FormItem label="อีเมล" name="employeeEmail">
+              <Input placeholder='อีเมล' name="employeeEmail"/>
             </FormItem>
-            <Form.Item name="employeePosition" label="ตำแหน่ง">
+            <FormItem label="รหัสผ่าน" name="employeePassword">
+              <Input.Password placeholder='รหัสผ่าน' name="employeePassword"/>
+            </FormItem>
+            <Form.Item name="employeePosition" label="ประเภทของพนักงาน">
               <Select>
-                <Select.Option value="manager">ผู้จัดการ</Select.Option>
-                <Select.Option value="assistantManager">ผู้ช่วยผู้จัดการ</Select.Option>
-                <Select.Option value="employee">พนักงาน</Select.Option>
+                <Select.Option value="ผู้จัดการร้าน">ผู้จัดการร้าน</Select.Option>
+                <Select.Option value="ผู้ช่วยผู้จัดการ">ผู้ช่วยผู้จัดการ</Select.Option>
+                <Select.Option value="พนักงานขาย">พนักงานขาย</Select.Option>
+                <Select.Option value="พนักงานฝ่ายผลิต">พนักงานฝ่ายผลิต</Select.Option>
               </Select>
             </Form.Item>
-            <FormItem name="employeePhone" label="เบอร์โทร">
-              <Input/>
+            <FormItem name="employeeName" label="ชื่อ-นามสกุล">
+              <Input placeholder="ชื่อ-นามสกุล" name='employeeName'/>
             </FormItem>
-            
-              <Button style={{ backgroundColor: '#EF8355', borderColor: '#EF8355', color: "white"}} htmlType='submit' >เพิ่ม</Button>
+            <FormItem name="employeePhone" label="เบอร์โทร" >
+              <Input placeholder='เบอร์โทร' name='employeePhone'/>
+            </FormItem>
+              <Button style={{ backgroundColor: '#EF8355', borderColor: '#EF8355', color: "white"}} htmlType='submit'>เพิ่ม</Button>
           </Form>
         </Modal>
       }

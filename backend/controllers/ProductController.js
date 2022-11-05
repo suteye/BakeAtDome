@@ -1,5 +1,7 @@
 const {google} = require('googleapis');
 const dotenv = require('dotenv');
+const Products = require('../model/ProductSchema');
+
 
 dotenv.config();
 
@@ -41,8 +43,11 @@ exports.metadata = async (req, res,next) => {
 }
 
 exports.getProducts = async (req, res,next) => {
+    
     try{
-        const {googleSheets, auth,spreadsheetId} = await getAuthSheets();
+        const products = await Products.find();
+        res.status(200).json(products);
+        /*const {googleSheets, auth,spreadsheetId} = await getAuthSheets();
         const rows = await googleSheets.spreadsheets.values.get({
             auth,
             spreadsheetId,
@@ -50,7 +55,6 @@ exports.getProducts = async (req, res,next) => {
             valueRenderOption: "FORMATTED_VALUE",
             dateTimeRenderOption: "FORMATTED_STRING",
         });
-        //array to json object like {name: "name", price: "price", picture: "picture"}
         const products = rows.data.values.map((row) => {
             return {
                 category: row[0],
@@ -62,15 +66,19 @@ exports.getProducts = async (req, res,next) => {
         });
         
         res.json(products);
-        //res.send(rows.data.values);
+        //res.send(rows.data.values); */
     }catch(err){
-        next(err);
+        res.status(400).json({message: err.message});
     }
 }
 
-exports.addRow = async (req, res,next) => {
+exports.addProduct = async (req, res,next) => {
+    const product_info = req.body;
+    const newProduct = new Products(product_info);
     try{
-        const {googleSheets,auth, spreadsheetId} = await getAuthSheets();
+        await newProduct.save();
+        res.status(201).json(newProduct);
+        /*const {googleSheets,auth, spreadsheetId} = await getAuthSheets();
         const {name, email, phone, message} = req.body;
         const rows = await googleSheets.spreadsheets.values.append({
             auth,
@@ -84,9 +92,9 @@ exports.addRow = async (req, res,next) => {
         res.status(200).json({
             success: true,
             message: "Row added",
-        });
+        }); */
     }catch(err){
-        next(err);
+        res.status(409).json({message: err.message});
     }
 }
 

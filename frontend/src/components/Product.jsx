@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react'
+import React from 'react'
 import { Button, Card } from 'antd';
 import { useDispatch } from 'react-redux';
 

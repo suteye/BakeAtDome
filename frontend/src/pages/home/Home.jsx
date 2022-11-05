@@ -5,6 +5,8 @@ import LayoutApp from '../../components/Layout'
 import Product from '../../components/Product';
 import { useDispatch } from 'react-redux';
 import Cart from '../../components/Cart';
+//import { addToCart } from '../../redux/actions/cartActions';
+
 
 
 
@@ -32,8 +34,6 @@ const Home = () => {
           dispatch({
             type: "HIDE_LOADING",
           });
-          //console.log(data);
-
         } catch(error) {
           console.log(error);
         }
@@ -42,12 +42,10 @@ const Home = () => {
       getAllProducts();
   }, [dispatch]);
   
-  //search function
 
 
   const handleCategory = (e) => {
     setSelectedCategory(e);
-    console.log(e);
   }
 
   const { Option } = Select;
@@ -102,6 +100,7 @@ const Home = () => {
     <LayoutApp>
       <div className="container">
       <div className="category">
+       
         <Input addonBefore={selectBefore} size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
       </div>
      <div style={{display: "flex", justifyContent: "space-between"}}>

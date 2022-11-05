@@ -22,7 +22,7 @@ const Products = () => {
       dispatch({
         type: "SHOW_LOADING",
       });
-      const {data} = await axios.get('/api/products/getproducts');
+      const {data} = await axios.get('/api/products/getProducts');
       setProductData(data);
       dispatch({
         type: "HIDE_LOADING",
@@ -46,7 +46,7 @@ const Products = () => {
       dispatch({
         type: "SHOW_LOADING",
       });
-      await axios.post('/api/products/deleteproducts', {productId:record._id});
+      await axios.post('/api/products/deleteProducts', {productId:record._id});
       message.success("Product Deleted Successfully!")
       getAllProducts();
       setPopModal(false);
@@ -98,7 +98,7 @@ const Products = () => {
         dispatch({
           type: "SHOW_LOADING",
         });
-        const res = await axios.post('/api/products/addproducts', value);
+        const res = await axios.post('/api/products/addProducts', value);
         message.success("Product Added Successfully!")
         getAllProducts();
         setPopModal(false);
@@ -119,7 +119,7 @@ const Products = () => {
         dispatch({
           type: "SHOW_LOADING",
         });
-       await axios.put('/api/products/updateproducts', {...value, productId:editProduct._id});
+       await axios.put('/api/products/updateProducts', {...value, productId:editProduct._id});
         message.success("Product Updated Successfully!")
         getAllProducts();
         setPopModal(false);
@@ -215,8 +215,9 @@ const Products = () => {
       </Col>
     </Row>
   </div>
-  <div className="category">
+      <div className="category">
         <Input addonBefore={selectBefore} size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
+        
       </div>
       <Table dataSource={productData} columns={columns} bordered />
       
