@@ -4,7 +4,7 @@
   "description": "TU More Read is a POS (point-of-sale) system used within bookstores that is used to sell books, manage financial transactions, control and check the total number of books within the store. TU More Read is developed from the MERN Point of Sale, so TU More Read will use MongoDB, Express, React, and Node.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "mocha",
     "server": "npm run server --prefix backend",
     "client": "npm start --prefix frontend",
     "dev": "concurrently 'npm run server' 'npm run client'"
@@ -24,10 +24,13 @@
     "@babel/plugin-proposal-export-default-from": "^7.18.10",
     "@babel/plugin-transform-runtime": "^7.19.1",
     "@testing-library/user-event": "^14.4.3",
+    "chai": "^4.3.7",
     "concurrently": "^7.4.0",
+    "mocha": "^10.1.0",
     "protractor": "^7.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.19.3",
