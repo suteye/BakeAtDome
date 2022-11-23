@@ -99,22 +99,22 @@ const Home = () => {
   return (
     <LayoutApp>
       <div className="container">
-      <div className="category">
-        <Input addonBefore={selectBefore} size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
+          <div className="category">
+            <Input addonBefore={selectBefore} size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
+          </div>
+          <div style={{display: "flex", justifyContent: "space-between"}}>
+              <Card style={{width: "1400px",}}>
+                <Row>
+                {search.length < 1 ? filteredData.map((item, index) => {         
+                  return <Product key={index} product={item} />
+                }) : searchProduct}
+                </Row>
+              </Card>
+              <Card style={{width: "500px", background:"#ffffff"}}>
+                <Cart/>
+              </Card>
+          </div>
       </div>
-     <div style={{display: "flex", justifyContent: "space-between"}}>
-          <Card style={{width: "1400px",}}>
-            <Row>
-            {search.length < 1 ? filteredData.map((item, index) => {         
-              return <Product key={index} product={item} />
-            }) : searchProduct}
-            </Row>
-          </Card>
-          <Card style={{width: "500px", background:"#ffffff"}}>
-            <Cart/>
-          </Card>
-     </div>
-  </div>
     </LayoutApp>
   )
 }
