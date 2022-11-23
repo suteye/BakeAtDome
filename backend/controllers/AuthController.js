@@ -1,4 +1,3 @@
-//const {google} = require("googleapis");
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 const Employee = require("../model/EmployeeSchema");
@@ -6,25 +5,6 @@ const ErrorResponse = require("../utils/errorResponse");
 
 dotenv.config();
 
-/*async function getAuthSheets(){
-    const auth = new google.auth.GoogleAuth({
-        keyFile: "credentials.json",
-        scopes: "https://www.googleapis.com/auth/spreadsheets",
-    });
-    const client = await auth.getClient();
-    const googleSheets = google.sheets({version: "v4", auth: client});
-    
-    const spreadsheetId = process.env.SHEET_ID;
-    
-    return{
-        auth,
-        client,
-        googleSheets,
-        spreadsheetId,
-    };
-}
-
-getAuthSheets().catch(console.error);*/
 
 exports.Login = async (req, res,next) => {
     const {username, password} = req.body;

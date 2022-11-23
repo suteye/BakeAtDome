@@ -5,6 +5,7 @@
   "dependencies": {
     "@ant-design/charts": "^1.4.2",
     "@ant-design/plots": "^1.2.2",
+    "@reduxjs/toolkit": "^1.9.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
@@ -52,8 +53,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "eslint-plugin-react": "^7.31.10"
   }
 }
