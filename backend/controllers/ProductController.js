@@ -8,7 +8,12 @@ dotenv.config();
 exports.getProducts = async (req, res,next) => {
     try{
         const products = await Products.find();
-        res.status(200).json(products);
+        //count total product but productStatus = 1 (available) 
+        // const totalProduct = await Products.countDocuments({productStatus: 1});
+        res.status(200).json(
+            products
+            // totalProduct
+        );
     }catch(err){
         return next(new ErrorResponse("ไม่พบข้อมูลสินค้าในระบบ", 404));
     }
@@ -46,8 +51,7 @@ exports.createProduct = async (req, res,next) => {
             newProduct
         });
     }catch(err){
-        console.log(err);
-       // return next(new ErrorResponse("ไม่สามารถสร้างสินค้าได้", 500));
+        return next(new ErrorResponse("ไม่สามารถสร้างสินค้าได้", 500));
     }
 
 }
@@ -72,9 +76,7 @@ exports.deleteProduct = async (req, res,next) => {
 }
 
 exports.updateProduct = async (req, res,next) => {
-    const {name, sku, category, quantity, price, productStatus} = req.body;
-    const {id} = req.params;
-
+    const id = req.body.productId;
     const product = await Products.findById(id);
 
     //if product not found
@@ -82,47 +84,14 @@ exports.updateProduct = async (req, res,next) => {
         return next(new ErrorResponse("ไม่พบข้อมูลสินค้าในระบบ", 404));
     }
 
-    //handle Image upload
-    let fileData = {};
-    if(req.files){
-        //save image to cloudinary
-        let uploadedFile;
-        try{
-            uploadedFile = await cloudinary.uploader.upload(req.file.path, {
-                folder: 'TuMoreRead',
-                resource_type: 'image',
-            });
-        }catch(err){
-            return next(new ErrorResponse("ไม่สามารถอัพโหลดรูปภาพได้", 500));
-        }
-
-        fileData = {
-            fileName : req.file.originalname,
-            filePath : uploadedFile.secure_url,
-            fileType : req.file.mimetype,
-            fileSize : fileSizeFormatter(req.file.size, 2),
-        }
-    }
-
     //update product
     try{
-        const updatedProduct = await Products.findByIdAndUpdate(
-            {_id: id},
-            {
-                name,
-                sku,
-                category,
-                quantity,
-                price,
-                productStatus,
-                image: Object.keys(fileData).length === 0 ? product?.image : fileData,
-            },
-            {
-                new: true,
-                runValidators: true,
-            }       
-        );
-        res.status(200).json(updatedProduct);
+        const updatedProduct = await Products.findOneAndUpdate({_id: id}, req.body,{new: true});
+        res.status(200).json({
+            success: true,
+            message: "แก้ไขสินค้าสำเร็จ",
+            updatedProduct
+        });
     }catch(err){
         return next(new ErrorResponse("ไม่สามารถแก้ไขสินค้าได้", 500));
     }

@@ -3,11 +3,12 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Select, Input, Table, Card, Col, Row,Button, Modal, Form,Switch } from 'antd';
-import { CheckCircleOutlined, ExclamationCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Select, Input, Table, Card, Col, Row,Button, Modal, Form } from 'antd';
+import { CheckCircleOutlined, ExclamationCircleOutlined, CloseCircleOutlined,DeleteOutlined,EditOutlined } from '@ant-design/icons';
 import LayoutApp from '../../components/Layout'
 import Product from '../../components/Product';
 import Swal from 'sweetalert2';
+
 
 const Products = () => {
 
@@ -28,7 +29,7 @@ const Products = () => {
   const getProducts = async () => {
     try {
       dispatch({type: "SHOW_LOADING"});
-      const {data} = await axios.get('/api/products/');
+      const {data} = await axios.get('/api/products/')
       setProductData(data);
       dispatch({type: "HIDE_LOADING"});
     } catch(error) {
@@ -42,11 +43,79 @@ const Products = () => {
   }, [])
 
   const createProduct = async (value) => {
-   
-    try {
-        await axios.post('/api/products/create', value).then((res) => {
+    if(editProduct === false) {
+      try {
+          dispatch({type: "SHOW_LOADING"})
+          await axios.post('/api/products/create', value).then((res) => {
+          let statusCode = res.status, message = res.data.message;
+          if(statusCode === 201) {
+            Swal.fire({
+              title: 'สำเร็จ',
+              text: message,
+              icon: 'success',
+              timer: 1500,
+              showConfirmButton: false
+            });
+          }
+          getProducts();
+          setPopModal(false);
+          dispatch({type: "HIDE_LOADING"})
+
+        });
+      
+      } catch (err) {
+        dispatch({type: "HIDE_LOADING"})
+        if(err.response.status === 500) {
+          Swal.fire({
+            title: 'ผิดพลาด',
+            text: err.response.data.message,
+            icon: 'error',
+            timer: 1500,
+            confirmButtonText: 'ลองใหม่อีกครั้ง'
+
+          });
+        }
+      }
+      setPopModal(false);
+    } else {
+      try{
+        dispatch({type: "SHOW_LOADING"})
+        await axios.put(`/api/products/update`, {...value, productId: editProduct._id}).then((res) => {
+          let statusCode = res.status, message = res.data.message;
+          if(statusCode === 200) {
+            Swal.fire({
+              title: 'สำเร็จ',
+              text: message,
+              icon: 'success',
+              timer: 1500,
+              showConfirmButton: false
+            });
+          }
+          getProducts();
+          setPopModal(false);
+          dispatch({type: "HIDE_LOADING"})
+        });
+      } catch (err) {
+        dispatch({type: "HIDE_LOADING"})
+        if(err.response.status === 500) {
+          Swal.fire({
+            title: 'ผิดพลาด',
+            text: err.response.data.message,
+            icon: 'error',
+            confirmButtonText: 'ลองใหม่อีกครั้ง'
+
+          });
+        }
+      }
+    }
+  }
+
+  const deleteProduct = async (id) => {
+    try{
+      dispatch({type: "SHOW_LOADING"})
+      await axios.delete(`/api/products/${id}`).then((res) => {
         let statusCode = res.status, message = res.data.message;
-        if(statusCode === 201) {
+        if(statusCode === 200) {
           Swal.fire({
             title: 'สำเร็จ',
             text: message,
@@ -54,23 +123,31 @@ const Products = () => {
             timer: 1500,
             showConfirmButton: false
           });
-          
         }
+        getProducts();
+        dispatch({type: "HIDE_LOADING"})
       });
-    
     } catch (err) {
-      console.log(err);
+      dispatch({type: "HIDE_LOADING"})
+      if(err.response.status === 500) {
+        Swal.fire({
+          title: 'ผิดพลาด',
+          text: err.response.data.message,
+          icon: 'error',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      }
     }
-
-    setPopModal(false);
   }
 
+  const productObj = [
+    { title: 'สินค้าพร้อมขาย', stats: productData.filter((item) => item.productStatus === 1).length },
+    { title: 'สินค้าหมด', stats: productData.filter((item) => item.productStatus === 2).length },
+    { title: 'ไม่พร้อมขาย', stats: productData.filter((item) => item.productStatus === 3).length },
+  ]
 
   const columns = [
-    {
-        title: "รหัส",
-        dataIndex: "id"
-    },
     {
         title: "ชื่อสินค้า",
         dataIndex: "name",
@@ -99,6 +176,18 @@ const Products = () => {
         );
       }
     },
+    {
+      title: "Action",
+      dataIndex: "_id",
+      render: (id,record) => {
+        return (
+          <span>
+            <Button type="primary" onClick={() => {setEditProduct(record); setPopModal(true)}} icon={<EditOutlined />} />
+            <Button type="danger" onClick={() => {deleteProduct(id)}} icon={<DeleteOutlined />} />
+          </span>
+        );
+      }
+    }
   ]
 
 
@@ -157,39 +246,54 @@ const Products = () => {
 
   return (
     <LayoutApp>
+      {/* card */}
       <div className="site-card-wrapper" style={{ padding: '0 24px 24px' }}>
         <Row gutter={16}>
-          <Col span={8}>
-            <Card bordered={false} style={{background:"#EEFFDD"}}>
-              <p style={{color:"#41AE0D" , fontSize: 50}}>0</p>
-              <p><b>พร้อมขาย<CheckCircleOutlined style={{paddingLeft: '16rem', color:"#41AE0D"}}/></b></p>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card bordered={false} style={{background:"#FFF7CB"}}>
-              <p style={{color:"#B69520", fontSize: 50}}>0</p>
-              <p><b>ใกล้หมด<ExclamationCircleOutlined style={{paddingLeft: '16rem', color:"#B69520"}}/></b></p>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card bordered={false} style={{background:"#FBEECE"}}>
-              <p style={{color:"#AE5A0D" , fontSize: 50}}>0</p>
-              <p><b>หมด<CloseCircleOutlined style={{paddingLeft: '16rem', color:"#AE5A0D"}}/></b></p>
-            </Card>
-          </Col>
+            <Col span={8}>
+                <Card bordered={false} style={{background:"#EEFFDD"}}>
+                <p style={{color:"#41AE0D" , fontSize: 50}}>
+                  {/* count product is ready to sell (productStatus = 1)  */}
+                  {productData.filter((product) => product.productStatus === "1").length}
+                </p>
+                <p><b>พร้อมขาย<CheckCircleOutlined style={{paddingLeft: '16rem', color:"#41AE0D"}}/></b></p>
+                </Card>
+            </Col>
+            <Col span={8}>
+                <Card bordered={false} style={{background:"#FFF7CB"}}>
+                <p style={{color:"#B69520", fontSize: 50}}>
+                  {/* count product is not ready to sell (productStatus = 2)  */}
+                  {productData.filter((product) => product.productStatus === "2").length}
+                </p>
+                <p><b>ใกล้หมด<ExclamationCircleOutlined style={{paddingLeft: '16rem', color:"#B69520"}}/></b></p>
+                </Card>
+            </Col>
+            <Col span={8}>
+                <Card bordered={false} style={{background:"#FBEECE"}}>
+                <p style={{color:"#AE5A0D" , fontSize: 50}}>
+                  {/* count product is out of stock (productStatus = 3)  */}
+                  {productData.filter((product) => product.productStatus === "3").length}
+                </p>
+                <p><b>หมด<CloseCircleOutlined style={{paddingLeft: '16rem', color:"#AE5A0D"}}/></b></p>
+                </Card>
+            </Col>
         </Row>
-      </div>
+  </div>
+
+      {/* search bar */}
       <div className="category">
         <Input addonBefore={selectBefore} size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
         <Input.Group compact>
           <Button type="primary" size="large" onClick={() => setPopModal(true)}> เพิ่มสินค้า </Button>
         </Input.Group>
       </div>
+
+      {/*  product table */}
       <Table dataSource={productData} columns={columns} bordered />
 
+      {/* modal create products */}
       {popModal && 
-        <Modal title="เพิ่มสินค้า" visible={popModal} onCancel={() => setPopModal(false)} footer={false} >
-          <Form layout="vertical" onFinish={createProduct}>
+        <Modal title={`${editProduct !== false ? "แก้ไขสินค้า" : "สร้างสินค้าใหม่"}`} visible={popModal} onCancel={() => setPopModal(false)} footer={false} >
+          <Form layout="vertical" initialValues={editProduct} onFinish={createProduct}>
             <Form.Item label="ชื่อสินค้า" name="name" rules={[{ required: true, message: 'กรุณากรอกชื่อสินค้า' }]}>
               <Input />
             </Form.Item>
