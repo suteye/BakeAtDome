@@ -65,8 +65,11 @@ const LayoutApp = ({children}) => {
       </Header>
       <Content style={{ margin: '0 16px'  }}>
         <Breadcrumb style={{  margin: '16px 0'  }}>
-          <Breadcrumb.Item>User</Breadcrumb.Item>
-          <Breadcrumb.Item>Bill</Breadcrumb.Item>
+          <Breadcrumb.Item>หน้าแรก</Breadcrumb.Item>
+
+          <Breadcrumb.Item>
+            {window.location.pathname === "/" ? "หน้าขาย" : window.location.pathname === "/products" ? "สต็อก" : window.location.pathname === "/employees" ? "พนักงาน" : window.location.pathname === "/bills" ? "ประวัติการขาย" : window.location.pathname === "/dashboards" ? "แดชบอร์ด" : ""}
+          </Breadcrumb.Item>
         </Breadcrumb>
         <div style={{padding: 24, minHeight: 360}}>
           {loading ? <Spinner /> : children}

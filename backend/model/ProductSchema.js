@@ -4,23 +4,23 @@ const autoIncrement = require('mongoose-auto-increment');
 const ProductSchema = mongoose.Schema({
     category: {
         type: String,
-        required: true
     },
     name: {
         type: String,
-        required: true
     },
     price: {
-        type: Number,
-        required: true
-    },
-    size: {
         type: String,
-        required: true
+    },
+    quantity: {
+        type: Number
     },    
     image: {
         type: String,
-        required: true
+    },
+    productStatus: {
+        type: String,
+        //status: 1 = พร้อมขาย, 2 = หมดสต๊อก, 3 = ไม่พร้อมขาย
+        default: 1,
     },
 })
 

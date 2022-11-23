@@ -31,19 +31,32 @@ exports.addEmployees = async (req, res) => {
     }
 }
 
-//save updated employee to database
+// updated employee to database
 exports.updateEmployees = async (req, res) => {
-    const employee_info = req.body;
-    const updatedEmployee = new Employees(employee_info);
-    try{
-        await Employees.findByIdAndUpdate({_id: req.body.employeeId}, updatedEmployee);
+    const emp = await Employees.findById(req.body.employeeId);
+
+    if(emp) {
+        const {employeeEmail, employeePassword, employeePosition, employeeName, employeePhone} = emp;
+        emp.employeeEmail = req.body.employeeEmail || employeeEmail;
+        emp.employeePassword = req.body.employeePassword || employeePassword;
+        emp.employeePosition = req.body.employeePosition || employeePosition;
+        emp.employeeName = req.body.employeeName || employeeName;
+        emp.employeePhone = req.body.employeePhone || employeePhone;
+
+        const updatedEmployee = await emp.save();
         res.status(201).json({
-            message: 'แก้ไขข้อมูลพนักงานสำเร็จ',
-            updatedEmployee
+            _id: updatedEmployee._id,
+            employeeEmail: updatedEmployee.employeeEmail,
+            employeePassword: updatedEmployee.employeePassword,
+            employeePosition: updatedEmployee.employeePosition,
+            employeeName: updatedEmployee.employeeName,
+            employeePhone: updatedEmployee.employeePhone,
+            message: 'แก้ไขข้อมูลพนักงานสำเร็จ'
         });
-    } catch(err){
-        return next(new ErrorResponse("ไม่สามารถแก้ไขข้อมูลพนักงานได้", 409));
+    } else {
+        return next(new ErrorResponse("ไม่พบพนักงานในระบบ", 404));
     }
+   
 }
 
 //delete employee from database

@@ -1,13 +1,11 @@
 const express = require('express');
-const {metadata, getProducts,addProduct,updateValue,deleteRow,getRowsbyId} = require('../controllers/ProductController');
+const {createProduct,getProducts,deleteProduct,updateProduct} = require('../controllers/ProductController');
 const router = express.Router();
 
-router.get('/metadata',metadata);
-router.get('/getProducts',getProducts);
-router.post('/addProduct',addProduct);
-router.put('/updateValue/:id',updateValue);
-router.post('/deleteRow/:id',deleteRow);
-router.get('/getRowsbyId/:id',getRowsbyId);
+router.post('/create', createProduct);
+router.get('/',getProducts);
+router.delete('/:id',deleteProduct);
+router.patch('/:id',updateProduct);
 
 
 module.exports = router;

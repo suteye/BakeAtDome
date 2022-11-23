@@ -1,15 +1,21 @@
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
 import React, {useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux';
-import LayoutApp from '../../components/Layout'
-import { Select, Input, Table, message, Card, Col, Row } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { Select, Input, Table, Card, Col, Row,Button, Modal, Form,Switch } from 'antd';
 import { CheckCircleOutlined, ExclamationCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import Title from 'antd/lib/skeleton/Title';
+import LayoutApp from '../../components/Layout'
 import Product from '../../components/Product';
+import Swal from 'sweetalert2';
 
 const Products = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
+
   const [productData, setProductData] = useState([]);
   const [popModal, setPopModal] = useState(false);
   const [editProduct, setEditProduct] = useState(false);
@@ -17,52 +23,48 @@ const Products = () => {
 
   const [search, setSearch]  =  useState("")
 
-  const getAllProducts = async () => {
-    try {
-      dispatch({
-        type: "SHOW_LOADING",
-      });
-      const {data} = await axios.get('/api/products/getProducts');
-      setProductData(data);
-      dispatch({
-        type: "HIDE_LOADING",
-      });
-      console.log(data);
 
+
+  const getProducts = async () => {
+    try {
+      dispatch({type: "SHOW_LOADING"});
+      const {data} = await axios.get('/api/products/');
+      setProductData(data);
+      dispatch({type: "HIDE_LOADING"});
     } catch(error) {
-      dispatch({
-        type: "HIDE_LOADING",
-      });
+      dispatch({type: "HIDE_LOADING"});
       console.log(error);
     }
   };
-
+  
   useEffect(() => {
-      getAllProducts();
-  }, []);
+    getProducts();
+  }, [])
 
-  const handlerDelete = async (record) => {
+  const createProduct = async (value) => {
+   
     try {
-      dispatch({
-        type: "SHOW_LOADING",
+        await axios.post('/api/products/create', value).then((res) => {
+        let statusCode = res.status, message = res.data.message;
+        if(statusCode === 201) {
+          Swal.fire({
+            title: 'สำเร็จ',
+            text: message,
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false
+          });
+          
+        }
       });
-      await axios.post('/api/products/deleteProducts', {productId:record._id});
-      message.success("Product Deleted Successfully!")
-      getAllProducts();
-      setPopModal(false);
-      dispatch({
-        type: "HIDE_LOADING",
-      });
-      
-
-    } catch(error) {
-      dispatch({
-        type: "HIDE_LOADING",
-      });
-      message.error("Error!")
-      console.log(error);
+    
+    } catch (err) {
+      console.log(err);
     }
+
+    setPopModal(false);
   }
+
 
   const columns = [
     {
@@ -79,7 +81,7 @@ const Products = () => {
     },
     {
       title: "จำนวน",
-      dataIndex: "amout",
+      dataIndex: "quantity",
     },
     {
       title: "หมวดหมู่",
@@ -87,60 +89,21 @@ const Products = () => {
     },
     {
       title: "สถานะ",
-      dataIndex: "status",
+      dataIndex: "productStatus",
+      render: (productStatus) => {
+        let color = productStatus === '1' ? 'green' : 'red';
+        return (
+          <span>
+            <CheckCircleOutlined style={{ color: color}} />
+          </span>
+        );
+      }
     },
   ]
 
-  const handlerSubmit = async (value) => {
-    //console.log(value);
-    if(editProduct === null) {
-      try {
-        dispatch({
-          type: "SHOW_LOADING",
-        });
-        const res = await axios.post('/api/products/addProducts', value);
-        message.success("Product Added Successfully!")
-        getAllProducts();
-        setPopModal(false);
-        dispatch({
-          type: "HIDE_LOADING",
-        });
-        
-  
-      } catch(error) {
-        dispatch({
-          type: "HIDE_LOADING",
-        });
-        message.error("Error!")
-        console.log(error);
-      }
-    } else {
-      try {
-        dispatch({
-          type: "SHOW_LOADING",
-        });
-       await axios.put('/api/products/updateProducts', {...value, productId:editProduct._id});
-        message.success("Product Updated Successfully!")
-        getAllProducts();
-        setPopModal(false);
-        dispatch({
-          type: "HIDE_LOADING",
-        });
-        
-  
-      } catch(error) {
-        dispatch({
-          type: "HIDE_LOADING",
-        });
-        message.error("Error!")
-        console.log(error);
-      }
-    }
-  }
 
   const handleCategory = (e) => {
     setSelectedCategory(e);
-    console.log(e);
   }
 
   const { Option } = Select;
@@ -151,12 +114,13 @@ const Products = () => {
       <Option value="เค้ก">เค้ก</Option>
       <Option value="ขนมปัง">ขนมปัง</Option>
       <Option value="คุกกี้">คุกกี้</Option>
-      <Option value="อื่นๆ">อื่นๆ</Option>
       <Option value="เครื่องดื่มร้อน">เครื่องดื่มร้อน</Option>
       <Option value="เครื่องดื่มเย็น">เครื่องดื่มเย็น</Option>
       <Option value="เครื่องดื่มปั่น">เครื่องดื่มปั่น</Option>
+      <Option value="อื่นๆ">อื่นๆ</Option>
     </Select>
   );
+
 
   function getFilteredData() {
     switch (selectedCategory) {
@@ -194,32 +158,73 @@ const Products = () => {
   return (
     <LayoutApp>
       <div className="site-card-wrapper" style={{ padding: '0 24px 24px' }}>
-    <Row gutter={16}>
-      <Col span={8}>
-        <Card bordered={false} style={{background:"#EEFFDD"}}>
-          <p style={{color:"#41AE0D" , fontSize: 50}}>5</p>
-          <p><b>พร้อมขาย<CheckCircleOutlined style={{paddingLeft: '16rem', color:"#41AE0D"}}/></b></p>
-        </Card>
-      </Col>
-      <Col span={8}>
-        <Card bordered={false} style={{background:"#FFF7CB"}}>
-          <p style={{color:"#B69520", fontSize: 50}}>0</p>
-          <p><b>ใกล้หมด<ExclamationCircleOutlined style={{paddingLeft: '16rem', color:"#B69520"}}/></b></p>
-        </Card>
-      </Col>
-      <Col span={8}>
-        <Card bordered={false} style={{background:"#FBEECE"}}>
-          <p style={{color:"#AE5A0D" , fontSize: 50}}>0</p>
-          <p><b>หมด<CloseCircleOutlined style={{paddingLeft: '16rem', color:"#AE5A0D"}}/></b></p>
-        </Card>
-      </Col>
-    </Row>
-  </div>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Card bordered={false} style={{background:"#EEFFDD"}}>
+              <p style={{color:"#41AE0D" , fontSize: 50}}>0</p>
+              <p><b>พร้อมขาย<CheckCircleOutlined style={{paddingLeft: '16rem', color:"#41AE0D"}}/></b></p>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card bordered={false} style={{background:"#FFF7CB"}}>
+              <p style={{color:"#B69520", fontSize: 50}}>0</p>
+              <p><b>ใกล้หมด<ExclamationCircleOutlined style={{paddingLeft: '16rem', color:"#B69520"}}/></b></p>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card bordered={false} style={{background:"#FBEECE"}}>
+              <p style={{color:"#AE5A0D" , fontSize: 50}}>0</p>
+              <p><b>หมด<CloseCircleOutlined style={{paddingLeft: '16rem', color:"#AE5A0D"}}/></b></p>
+            </Card>
+          </Col>
+        </Row>
+      </div>
       <div className="category">
         <Input addonBefore={selectBefore} size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
-        
+        <Input.Group compact>
+          <Button type="primary" size="large" onClick={() => setPopModal(true)}> เพิ่มสินค้า </Button>
+        </Input.Group>
       </div>
       <Table dataSource={productData} columns={columns} bordered />
+
+      {popModal && 
+        <Modal title="เพิ่มสินค้า" visible={popModal} onCancel={() => setPopModal(false)} footer={false} >
+          <Form layout="vertical" onFinish={createProduct}>
+            <Form.Item label="ชื่อสินค้า" name="name" rules={[{ required: true, message: 'กรุณากรอกชื่อสินค้า' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label="ราคา" name="price" rules={[{ required: true, message: 'กรุณากรอกราคา' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label="หมวดหมู่" name="category" rules={[{ required: true, message: 'กรุณาเลือกหมวดหมู่' }]}>
+              <Select>
+                <Option value="ขนมเพื่อสุขภาพ">ขนมเพื่อสุขภาพ</Option>
+                <Option value="เค้ก">เค้ก</Option>
+                <Option value="ขนมปัง">ขนมปัง</Option>
+                <Option value="คุกกี้">คุกกี้</Option>
+                <Option value="เครื่องดื่มร้อน">เครื่องดื่มร้อน</Option>
+                <Option value="เครื่องดื่มเย็น">เครื่องดื่มเย็น</Option>
+                <Option value="เครื่องดื่มปั่น">เครื่องดื่มปั่น</Option>
+                <Option value="อื่นๆ">อื่นๆ</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item label="จำนวน" name="quantity" rules={[{ required: true, message: 'กรุณากรอกจำนวน' }]}>
+              <Input />
+            </Form.Item>  
+              <Form.Item label="รูปภาพ" name="image" rules={[{
+                required: true,
+                message: 'กรุณาใส่รูปภาพ'
+              }]} >
+                  <Input
+                    type="text"
+                  />
+                 
+              </Form.Item>
+              <Button htmlType='submit' type="primary" size="large" style={{width: '100%'}}>เพิ่มสินค้า</Button>
+
+            </Form>
+        </Modal>
+      }
       
     </LayoutApp>
   )

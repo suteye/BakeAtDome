@@ -26,7 +26,7 @@ const Home = () => {
           dispatch({
             type: "SHOW_LOADING",
           });
-          const {data} = await axios.get(`/api/products/getProducts`);
+          const {data} = await axios.get(`/api/products/`);
 
 
           setProductData(data);

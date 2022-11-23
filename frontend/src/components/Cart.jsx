@@ -5,22 +5,25 @@ import { DeleteOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import {  Row,Button } from 'antd';
 
 const Cart = () => {
-    const {cartItems, loading} = useSelector(state => state.rootReducer)
+    const {cartItems} = useSelector(state => state.rootReducer);
     const [subTotal, setSubTotal] = useState(0);
 
 
       //const navigate = useNavigate();
       const dispatch = useDispatch();
 
+      //checkout and update stock
+      
       const handlerCheckout = () => {
-        console.log(cartItems);
+        dispatch({
+          type: "CHECKOUT"
+        })
       }
 
-      //handler delete by item
-      const handlerDelete = (index) => {
+      const handlerDelete = (record) => {
         dispatch({
           type: "DELETE_FROM_CART",
-          payload: index
+          payload: record
         });
       }
       const handlerIncrement = (record) => {
