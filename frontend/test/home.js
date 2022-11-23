@@ -22,7 +22,6 @@ describe('Protractor Test', function() {
       });
     it('Test Search Item',function(){
         console.log("===== TEST Search Item =====")   
-
         browser.sleep(5000)
         element(by.className('ant-input ant-input-lg')).sendKeys("คุกกี้").then(function(){
             console.log("Search Success");  
@@ -33,15 +32,9 @@ describe('Protractor Test', function() {
     it('Test Dropdown',function(){
         browser.sleep(5000)
         console.log("===== TEST Dropdown =====") // ลองทำแบบกดอันอื่น
-        element(by.className('ant-select-selection-item')).click().then(function(){
-            console.log('dropdown success');
-        })
+        element(by.className('ant-select-selection-item')).click();
+        console.log('dropdown success');
         browser.sleep(5000)
-
-        // browser.sleep(1000)
-        // element(by.value("ขนมเพื่อสุขภาพ")).click().then(function(){
-        //     console.log('click dropdown success');
-        // })
     });
 
     it('Test add item to cart',function(){ // add another
@@ -81,18 +74,13 @@ describe('Protractor Test', function() {
         browser.sleep(5000)
     });
     
-    // it('Test Calculator value',function(){
+    // it('Test Calculator Iten Value',function(){
     //     browser.sleep(5000)
-    //    console.log("===== Test Calculator item value =====")
+    //     console.log("===== Test Calculator item value =====")
     //    //เพิ่มคุ้กกี้1 เพิ่มขนมอีก1 แล้วเอาจำนวนมาคูณกับราคา
     //    //situation -> get element then expect
-    //     // element(by.className('ant-btn ant-btn-round ant-btn-danger ant-btn-lg ant-btn-icon-only')).click().then(function(){
-    //     //     console.log('Delete item from cart success');
-    //     // })
+        
     //     browser.sleep(5000)
     // });
 
 });
-
-//dropdown
-//calculate

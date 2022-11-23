@@ -99,7 +99,6 @@ const Home = () => {
   return (
     <LayoutApp>
       <div className="container">
-<<<<<<< HEAD
           <div className="category">
             <Input addonBefore={selectBefore} size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
           </div>
@@ -115,11 +114,6 @@ const Home = () => {
                 <Cart/>
               </Card>
           </div>
-=======
-      <div className="category">
-       
-        <Input addonBefore={selectBefore} size="large" placeholder="ค้นหาสินค้า ชื่อ/รหัสสินค้า" onChange={e => setSearch(e.target.value)} value={search}/>
->>>>>>> afa4d79c423dd1fb71fe92efccfba87d1c656ac1
       </div>
     </LayoutApp>
   )

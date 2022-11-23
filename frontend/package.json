@@ -10,15 +10,10 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.20.6",
     "axios": "^0.27.2",
-<<<<<<< HEAD
-    "bcrypt": "^5.1.0",
-    "detect-browser": "^5.3.0",
-=======
     "bcryptjs": "^2.4.3",
     "detect-browser": "^5.3.0",
     "http-proxy-middleware": "^2.0.6",
     "protractor": "^7.0.0",
->>>>>>> afa4d79c423dd1fb71fe92efccfba87d1c656ac1
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.2",
@@ -38,6 +33,7 @@
     "test:protractor": "protractor test/conf.js",
     "web:update": "webdriver-manager update",
     "web:start": "webdriver-manager start",
+    "web": "webdriver-manager update && webdriver-manager start",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
