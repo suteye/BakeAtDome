@@ -141,12 +141,6 @@ const Products = () => {
     }
   }
 
-  const productObj = [
-    { title: 'สินค้าพร้อมขาย', stats: productData.filter((item) => item.productStatus === 1).length },
-    { title: 'สินค้าหมด', stats: productData.filter((item) => item.productStatus === 2).length },
-    { title: 'ไม่พร้อมขาย', stats: productData.filter((item) => item.productStatus === 3).length },
-  ]
-
   const columns = [
     {
         title: "ชื่อสินค้า",

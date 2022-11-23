@@ -36,8 +36,7 @@ const array = []
         case "DELETE_FROM_CART":
         return {
             ...state,
-            //delete the product from the cart by index
-            cartItems: state.cartItems.filter((index) => index !== action.payload)
+            cartItems: state.cartItems.filter((product) => product._id !== action.payload._id),
         };
         case "CALC_STORE_VALUE": 
         products.map((item) =>{
