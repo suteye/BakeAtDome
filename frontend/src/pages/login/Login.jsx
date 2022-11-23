@@ -1,10 +1,12 @@
-import { Button, Form, Input, message,Space } from 'antd';
+import { Button, Form, Input,Space } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone,UserOutlined } from '@ant-design/icons';
 import FormItem from 'antd/lib/form/FormItem';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
 
@@ -12,32 +14,55 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handlerSubmit = async (value) => {
-    //console.log(value);
     try {
       dispatch({
         type: "SHOW_LOADING",
       });
-      const res = await axios.post('http://localhost:5500/api/auth/login', value);
+      await axios.post('/api/auth/login', value).then((response) => {
+        let statusCode = response.status, message = response.data.message;
+        if(statusCode === 200) {
+          Swal.fire({
+            title: 'สำเร็จ',
+            text: message,
+            icon: 'success',
+
+          });
+          localStorage.setItem("authToken", response.data.token);
+          navigate('/');
+          
+        } else {
+          Swal.fire({
+            title: 'ผิดพลาด',
+            text: message,
+            icon: 'error',
+            confirmButtonText: 'ตกลง'
+          });
+        }
+      }); 
       dispatch({
         type: "HIDE_LOADING",
       });
-      message.success("User Login Successfully!");
-      localStorage.setItem("auth", JSON.stringify(res.data));
-      navigate("/");
+
       
 
     } catch(error) {
       dispatch({
         type: "HIDE_LOADING",
       });
-      message.error("Error!")
-      console.log(error);
-    }
+        if(error.response.status === 401 || error.response.status === 400 || error.response.status === 404) {
+          Swal.fire({
+            title: 'ผิดพลาด',
+            text: error.response.data.error,
+            icon: 'error',
+            confirmButtonText: 'ตกลง'
+          });
+        }
+      }
   }
 
   useEffect(() => {
-    if(localStorage.getItem("auth")) {
-      localStorage.getItem("auth");
+    if(localStorage.getItem("authToken")) {
+      localStorage.getItem("authToken");
       navigate("/");
     }
     

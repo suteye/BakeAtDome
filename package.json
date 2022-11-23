@@ -4,10 +4,12 @@
   "description": "TU More Read is a POS (point-of-sale) system used within bookstores that is used to sell books, manage financial transactions, control and check the total number of books within the store. TU More Read is developed from the MERN Point of Sale, so TU More Read will use MongoDB, Express, React, and Node.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test:frontend": "npm run test:protractor --prefix frontend",
+    "test:backend": "npm run test --prefix backend",
+    "test": "concurrently \"npm run test:frontend\" \"npm run test:backend\"",
     "server": "npm run server --prefix backend",
     "client": "npm start --prefix frontend",
-    "dev": "concurrently 'npm run server' 'npm run client'"
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -21,10 +23,8 @@
   },
   "homepage": "https://github.com/suteye/TuMoreRead#readme",
   "dependencies": {
-    "@babel/plugin-proposal-export-default-from": "^7.18.10",
-    "@babel/plugin-transform-runtime": "^7.19.1",
-    "@testing-library/user-event": "^14.4.3",
     "concurrently": "^7.4.0",
+<<<<<<< HEAD
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -35,5 +35,12 @@
     "@babel/preset-react": "^7.18.6",
     "@testing-library/react": "^13.4.0",
     "react-test-renderer": "^18.2.0"
+=======
+    "dotenv": "^16.0.3",
+    "protractor": "^7.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "save-dev": "^0.0.1-security"
+>>>>>>> afa4d79c423dd1fb71fe92efccfba87d1c656ac1
   }
 }
