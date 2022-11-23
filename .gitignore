@@ -1,12 +1,8 @@
 # dependencies
-/backend/node_modules
-/frontend/node_modules
-/node_modules
 /.pnp
 .pnp.js
 # configuration
 /backend/.env
-/backend/credentials.json
 
 # misc
 .DS_Store
