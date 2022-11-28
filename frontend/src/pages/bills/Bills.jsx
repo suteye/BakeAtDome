@@ -1,9 +1,9 @@
-import { Button, Modal, Table, Input, Select} from 'antd';
+import { Button, Modal, Table, Input} from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react'
-import ReactToPrint from 'react-to-print';
+//import ReactToPrint from 'react-to-print';
 import { useReactToPrint } from 'react-to-print';
-import { EyeOutlined, SearchOutlined} from '@ant-design/icons';
+import { EyeOutlined} from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import Layout from '../../components/Layout'
 
@@ -37,7 +37,7 @@ const dispatch = useDispatch();
 
   useEffect(() => {
       getAllBills();
-  }, []);
+  }, []); // eslint-disable-line
 
   
 

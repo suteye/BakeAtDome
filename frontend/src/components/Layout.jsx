@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Card, Layout, Menu } from 'antd';
+import { Breadcrumb, Layout, Menu } from 'antd';
 import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
+
   ShopOutlined,
   HomeOutlined,
   UserSwitchOutlined,
@@ -22,10 +21,6 @@ const LayoutApp = ({children}) => {
 
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
-
-  const toggle = () => {
-    setCollapsed(!collapsed);
-  };
 
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems))
@@ -60,7 +55,7 @@ const LayoutApp = ({children}) => {
             <Menu.Item key='/employees' icon={<UserSwitchOutlined />}>
                 <Link to="/employees">พนักงาน</Link>
             </Menu.Item>
-            <Menu.Item key='/logout' icon={<LogoutOutlined />} onClick={() => {localStorage.removeItem("auth"); navigate("/login");}}>
+            <Menu.Item key='/logout' icon={<LogoutOutlined />} onClick={() => {localStorage.removeItem("authToken"); navigate("/login");}}>
                 ออกจากระบบ
             </Menu.Item>
       </Menu>
@@ -70,8 +65,11 @@ const LayoutApp = ({children}) => {
       </Header>
       <Content style={{ margin: '0 16px'  }}>
         <Breadcrumb style={{  margin: '16px 0'  }}>
-          <Breadcrumb.Item>User</Breadcrumb.Item>
-          <Breadcrumb.Item>Bill</Breadcrumb.Item>
+          <Breadcrumb.Item>หน้าแรก</Breadcrumb.Item>
+
+          <Breadcrumb.Item>
+            {window.location.pathname === "/" ? "หน้าขาย" : window.location.pathname === "/products" ? "สต็อก" : window.location.pathname === "/employees" ? "พนักงาน" : window.location.pathname === "/bills" ? "ประวัติการขาย" : window.location.pathname === "/dashboards" ? "แดชบอร์ด" : ""}
+          </Breadcrumb.Item>
         </Breadcrumb>
         <div style={{padding: 24, minHeight: 360}}>
           {loading ? <Spinner /> : children}

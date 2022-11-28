@@ -1,165 +1,99 @@
-const {google} = require('googleapis');
 const dotenv = require('dotenv');
+const Products = require('../model/ProductSchema');
+const ErrorResponse = require('../utils/errorResponse');
 
 dotenv.config();
 
 
-async function getAuthSheets(){
-    const auth = new google.auth.GoogleAuth({
-        keyFile: "credentials.json",
-        scopes: "https://www.googleapis.com/auth/spreadsheets",
-    });
-    const client = await auth.getClient();
-    const googleSheets = google.sheets({version: "v4", auth: client});
-    
-    const spreadsheetId = process.env.SHEET_ID;
-    
-    return{
-        auth,
-        client,
-        googleSheets,
-        spreadsheetId,
-    };
-}
-
-getAuthSheets().catch(console.error);
-
-exports.metadata = async (req, res,next) => {
-    try{
-        const {googleSheets, auth, spreadsheetId} = await getAuthSheets();
-        const metadata = await googleSheets.spreadsheets.get({
-            auth,
-            spreadsheetId,
-        });
-        res.status(200).json({
-            success: true,
-            data: metadata.data,
-        });
-    }catch(err){
-        next(err);
-    }
-}
-
 exports.getProducts = async (req, res,next) => {
     try{
-        const {googleSheets, auth,spreadsheetId} = await getAuthSheets();
-        const rows = await googleSheets.spreadsheets.values.get({
-            auth,
-            spreadsheetId,
-            range: "products!A4:D",
-            valueRenderOption: "FORMATTED_VALUE",
-            dateTimeRenderOption: "FORMATTED_STRING",
-        });
-        //array to json object like {name: "name", price: "price", description: "description"}
-        const products = rows.data.values.map((row) => {
-            return {
-                category: row[0],
-                name: row[1],
-                size: row[2],
-                price: row[3],
-            };
-        });
-        
-        res.json(products);
-        //res.send(rows.data.values);
+        const products = await Products.find();
+        //count total product but productStatus = 1 (available) 
+        // const totalProduct = await Products.countDocuments({productStatus: 1});
+        res.status(200).json(
+            products
+            // totalProduct
+        );
     }catch(err){
-        next(err);
+        return next(new ErrorResponse("ไม่พบข้อมูลสินค้าในระบบ", 404));
+    }
+  //const products = await Products.find({ productStatus: "available" });
+ // res.status(200).json(products);
+
+}
+
+exports.createProduct = async (req, res,next) => {
+    const {name, category, quantity,price,image} = req.body;
+
+    //validate
+    if(!name || !category || !quantity || !price || !image ){
+        return next(new ErrorResponse("กรุณากรอกข้อมูลให้ครบถ้วน", 400));
+    }
+
+    //handle duplicate name
+    const chkproductName = await Products.findOne({ name });
+    if(chkproductName){
+        return next(new ErrorResponse("ชื่อสินค้านี้มีในระบบแล้ว", 409));
+    }
+
+    //create new product
+    try{
+    const newProduct = await Products.create({ 
+            name,
+            category,
+            quantity,
+            price,
+            image
+        }); 
+        res.status(201).json({
+            success: true,
+            message: "สร้างสินค้าสำเร็จ",
+            newProduct
+        });
+    }catch(err){
+        return next(new ErrorResponse("ไม่สามารถสร้างสินค้าได้", 500));
+    }
+
+}
+
+exports.deleteProduct = async (req, res,next) => {
+    const productId =  await Products.findById(req.params.id);
+    //if product not found
+    if(!productId){
+        return next(new ErrorResponse("ไม่พบข้อมูลสินค้าในระบบ", 404));
+    }
+
+    //delete product
+    try{
+        await productId.remove();
+        res.status(200).json({
+            success: true, 
+            message: "ลบสินค้าสำเร็จ"
+        });
+    }catch(err){
+        return next(new ErrorResponse("ไม่สามารถลบสินค้าได้", 500));
     }
 }
 
-exports.addRow = async (req, res,next) => {
+exports.updateProduct = async (req, res,next) => {
+    const id = req.body.productId;
+    const product = await Products.findById(id);
+
+    //if product not found
+    if(!product){
+        return next(new ErrorResponse("ไม่พบข้อมูลสินค้าในระบบ", 404));
+    }
+
+    //update product
     try{
-        const {googleSheets,auth, spreadsheetId} = await getAuthSheets();
-        const {name, email, phone, message} = req.body;
-        const rows = await googleSheets.spreadsheets.values.append({
-            auth,
-            spreadsheetId,
-            range: "Sheet1",
-            valueInputOption: "USER_ENTERED",
-            resource: {
-                values: [[name, email, phone, message]],
-            },
-        });
+        const updatedProduct = await Products.findOneAndUpdate({_id: id}, req.body,{new: true});
         res.status(200).json({
             success: true,
-            message: "Row added",
+            message: "แก้ไขสินค้าสำเร็จ",
+            updatedProduct
         });
     }catch(err){
-        next(err);
+        return next(new ErrorResponse("ไม่สามารถแก้ไขสินค้าได้", 500));
     }
+    
 }
-
-exports.updateValue = async (req, res,next) => {
-    try{
-        const {name, email, phone, message} = req.body;
-        const {googleSheets, auth,spreadsheetId} = await getAuthSheets();
-        const rows = await googleSheets.spreadsheets.values.update({
-            auth,
-            spreadsheetId,
-            range: `Sheet1!A${req.params.id}:D${req.params.id}`,
-            valueInputOption: "USER_ENTERED",
-            resource: {
-                values: [[name, email, phone, message]],
-                majorDimension: "ROWS",
-            },
-        });
-        res.status(200).json({
-            success: true,
-            data: rows.data,
-        });
-    }catch(err){
-        next(err);
-    }
-}
-
-
-
-exports.deleteRow = async (req, res,next) => {
-   try{
-        const {googleSheets, auth,spreadsheetId} = await getAuthSheets();
-        const rows = await googleSheets.spreadsheets.batchUpdate({
-            auth, 
-            spreadsheetId,
-            resource: {
-                
-                requests: [
-                    {
-                        deleteDimension: {
-                            range: {
-                                sheetId: 0,
-                                dimension: "ROWS",
-                                startIndex: req.params.id-1,
-                                endIndex: req.params.id,
-                            },
-                        },
-                    },
-                ],
-            },
-        });
-        res.status(200).json({
-            success: true,
-            data: rows.data,
-        });
-    } catch(err){
-        next(err);
-    }
-}
-
-
-
-exports.getRowsbyId = async (req, res,next) => {
-    try{
-        const {googleSheets, auth,spreadsheetId} = await getAuthSheets();
-        const rows = await googleSheets.spreadsheets.values.get({
-            auth,
-            spreadsheetId,
-            range: `Sheet1!A${req.params.id}:D${req.params.id}`,
-            valueRenderOption: "FORMATTED_VALUE",
-            dateTimeRenderOption: "FORMATTED_STRING",
-        });
-        res.send(rows.data.values);
-    }catch(err){
-        next(err);
-    }
-}
-

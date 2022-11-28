@@ -1,9 +1,17 @@
 const initialState = {
     loading: false,
-    cartItems: []
+    cartItems: [],
+    totalStoreValue: 0,
+    totalProducts: 0,
+    outOfStock: 0,
+    categories: [],
 }
 
+
 export const rootReducer = (state = initialState, action) => {
+
+const products = action.payload;
+const array = []
     switch(action.type) {
         case "SHOW_LOADING":
         return {
@@ -28,9 +36,48 @@ export const rootReducer = (state = initialState, action) => {
         case "DELETE_FROM_CART":
         return {
             ...state,
-            //delete the product from the cart by index
-            cartItems: state.cartItems.filter((index) => index !== action.payload)
+            cartItems: state.cartItems.filter((product) => product._id !== action.payload._id),
         };
+        case "CALC_STORE_VALUE": 
+        products.map((item) =>{
+            const {price,quantity} = item;
+            const productValue = price * quantity;
+            return array.push(productValue);
+        })
+        const totalStoreValue = array.reduce((a,b) => a + b, 0);
+        return {
+            ...state,
+            totalStoreValue: totalStoreValue,
+        }; 
+        case "CALC_TOTAL_PRODUCTS":
+        const totalProducts = products.length;
+        return {
+            ...state,
+            totalProducts: totalProducts,
+        };
+        case "CALC_OUT_OF_STOCK":
+        products.map((item) =>{
+            const {quantity} = item;
+            return array.push(quantity);
+        })
+        let count = 0;
+        array.forEach((number) => {
+            if(number === 0 || number < 0 || number === "0"){
+                count+= 1;
+            }
+        })
+        return {
+            ...state,
+            outOfStock: count,
+        };
+
+        case "CHECKOUT":
+        return {
+            ...state,
+            cartItems: [],
+        };
+
+    
         default: return state;
     }
 }
