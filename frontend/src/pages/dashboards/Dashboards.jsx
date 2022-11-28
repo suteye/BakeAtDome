@@ -204,21 +204,37 @@ const Dashboards = () => {
   return (
     <Layout>
 <div className="site-card-wrapper">
+  <div style={{ padding: '0 24px 24px' }}>
     <Row gutter={16}>
       <Col span={8}>
-        <Card title="ยอดรวม" bordered={false}>
-          <p style={{color:"#EF8355" , fontSize: 50}}>฿ 5,670.00</p>
+        <Card title="ยอดขายรวม" bordered={false} style={{background:"#EEFFDD"}}>
+          <p style={{color:"#228B22" , fontSize: 50}}>฿ 5,670.00</p>
         </Card>
       </Col>
-      <Col span={16}>
-        <Card title="ช่วงเวลา (24 ชั่วโมง)" bordered={false}>
-        <Line {...configLine}/>
-        </Card>
-        <Card title="สินค้าขายดี 5 อันดับ" bordered={false}>
-        <Column {...configColumn}/>
+      <Col span={8}>
+        <Card title="ยอดรายการขาย" bordered={false} style={{background:"#FBEECE"}}>
+          <p style={{color:"#EF8355" , fontSize: 50}}>26 รายการ</p>
         </Card>
       </Col>
-      
+      <Col span={8}>
+        <Card title="ยอดขายวันนี้" bordered={false}>
+          <p style={{color:"#228B22" , fontSize: 50}}>฿ 2,800.00</p>
+        </Card>
+      </Col>
+    </Row>
+      </div>
+
+      <Row gutter={16}>
+        <Col span={12}>
+         <Card title="ช่วงเวลา (24 ชั่วโมง)" bordered={false}>
+          <Line {...configLine}/>
+          </Card>
+        </Col>
+       <Col span={12}>
+         <Card title="สินค้าขายดี 5 อันดับ" bordered={false}>
+          <Column {...configColumn}/>
+         </Card>
+       </Col>
       </Row>
   </div> 
     </Layout>
