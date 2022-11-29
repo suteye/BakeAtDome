@@ -40,7 +40,7 @@ const Products = () => {
   
   useEffect(() => {
     getProducts();
-  }, []) //eslint-disable-next-line
+  }, [])
 
   const createProduct = async (value) => {
     if(editProduct === false) {
