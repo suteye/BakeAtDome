@@ -42,16 +42,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: install Docker client
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install --no-install-recommends docker.io
     - name: Run docker
       uses: addnab/docker-run-action@v3
       with:
         image: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
         run: docker run ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
+    - name: show running containers
+      run: docker ps
 
     - name: Test backend
-      working directory: ./app/backend
+      working-directory: ./app/backend
       run: npm run test
 
     - name: Test frontend
-      working directory: ./app/frontend
+      working-directory: ./app/frontend
       run: npm run test:protractor
