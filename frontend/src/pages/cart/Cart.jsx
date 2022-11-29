@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../components/Layout'
 import { DeleteOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Modal, Select, Table } from 'antd';
+import { Button, Form, Modal, Select, Table } from 'antd';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -96,6 +97,7 @@ const Cart = () => {
                 if(statusCode === 201){
                   dispatch({type: "CHECKOUT"})
                   dispatch({type: "HIDE_LOADING"})
+                  setBillPopUp(false);
                   Swal.fire({ 
                     title: 'สำเร็จ',
                     text: message,

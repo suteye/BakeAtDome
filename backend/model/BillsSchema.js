@@ -9,6 +9,7 @@ const BillSchema = mongoose.Schema({
 },{
     timestamps: true
 })
+
     
 autoIncrement.initialize(mongoose.connection);
 BillSchema.plugin(autoIncrement.plugin, 'bills');

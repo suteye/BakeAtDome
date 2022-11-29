@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Button, Form, Input, Modal, Select, Table } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
@@ -14,8 +15,6 @@ const Employees = () => {
   const [popModal, setPopModal] = useState(false);
   const [editEmployee, setEditEmployee] = useState(false);
   
-
-{/* get all data */}
   const getAllEmployees = async () => {
     try {
       dispatch({
@@ -40,7 +39,6 @@ const Employees = () => {
     getAllEmployees();
   }, []);  // eslint-disable-line
 
-  {/* submit */}
   const handlerSubmit = async (value) => {
 
     if(editEmployee === false) {
@@ -120,7 +118,6 @@ const Employees = () => {
     }
   }
 
-{/* delete */}
   const handlerDelete = async (record) => {
     try {
       dispatch({
