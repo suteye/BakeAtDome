@@ -3,7 +3,10 @@ name: BakeAtDome
 on:
   push:
     branches: [ main ]
-  merge:
+  pull_request:
+    types: [ opened, reopened, closed, edited ]
+  merge_group:
+    types: [checks_requested]
     branches: [ main ]
 
 jobs:
