@@ -15,15 +15,22 @@ exports.getBill = async (req, res,next) => {
 
 exports.createBill = async (req, res,next) => {
     const {paymentMethod} = req.body;
-
     //validate
     if(!paymentMethod){
         return next(new ErrorResponse("กรุณากรอกข้อมูลให้ครบถ้วน", 400));
     }
+    //create bill id in format of "ddmmyy"
+    const billId = new Date().toLocaleDateString().replace(/\//g,'');
 
     //create new bill
     try{
-    const newBill = await Bills.create(req.body); 
+    const newBill = await Bills.create(
+        {
+            billId: billId,
+            paymentMethod: paymentMethod,
+            cartItems: req.body.cartItems,
+        }
+    ); 
         res.status(201).json({
             success: true,
             message:"ชำระเงินสำเร็จ",
