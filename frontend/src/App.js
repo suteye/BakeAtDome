@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
 import 'antd/dist/antd.min.css';
 import './App.css';
