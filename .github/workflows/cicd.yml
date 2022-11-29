@@ -37,6 +37,7 @@ jobs:
 
   test:
     if: ${{ always() }}
+    needs: [ build ]
 
     runs-on: ubuntu-latest
 
