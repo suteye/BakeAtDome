@@ -49,9 +49,9 @@ jobs:
         run: docker run ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
 
     - name: Test backend
-      working directory: ./app/backend
+      working-directory: ./app/backend
       run: npm run test
 
     - name: Test frontend
-      working directory: ./app/frontend
+      working-directory: ./app/frontend
       run: npm run test:protractor
