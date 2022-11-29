@@ -36,6 +36,8 @@ jobs:
         tags: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
 
   test:
+    if: ${{ always() }}
+
     runs-on: ubuntu-latest
 
     container: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
