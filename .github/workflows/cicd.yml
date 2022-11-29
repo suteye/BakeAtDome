@@ -37,12 +37,17 @@ jobs:
 
   test:
     if: ${{ always() }}
+    need: [ build ]
 
     runs-on: ubuntu-latest
 
-    container: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
-
     steps:
+    - name: Run docker
+      uses: addnab/docker-run-action@v3
+      with:
+        image: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
+        run: docker run ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
+
     - name: Test backend
       working directory: ./app/backend
       run: npm run test
