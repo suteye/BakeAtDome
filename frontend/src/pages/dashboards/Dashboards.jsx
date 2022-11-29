@@ -9,34 +9,62 @@ const Dashboards = () => {
 
   const dispatch = useDispatch();
   const [dashBoardsData, setDashBoardsData] = useState([]);
+  const [totalSell, setTotalSell] = useState('');
+  const [totalOrder, setTotalOrder] = useState('');
+  const [totalIncomeToday , setTotalIncomeToday] = useState('');
+  const [BestSeller, setBestSeller] = useState('');
+  const [SaleIn24Hours, setSaleIn24Hours] = useState('');
+  const [TopfiveBestSeller, setTopfiveBestSeller] = useState([]);
 
-  const getAllDashBoards = async () => {
-    try {
-      dispatch({
-        type: "SHOW_LOADING",
-      });
-      const {data} = await axios.get('/api/bills/getDashBoards');
-      setDashBoardsData(data);
-      dispatch({
-        type: "HIDE_LOADING",
-      });
-      console.log(data);
+  const fetchStat = async () => {
 
-    } catch(error) {
-      dispatch({
-        type: "HIDE_LOADING",
-      });
-      console.log(error);
-    }
-  };
+    axios.get('/api/bills/summary')
+     .then((stat) => {
+      console.log(stat.data);
+       setTotalSell(stat.data.sumIncome[0].price.toFixed(2));
+       setTotalOrder(stat.data.sumOrder[0].count);
+       setTotalIncomeToday(stat.data.sumIncomeToday[0].price.toFixed(2));
+       setBestSeller(stat.data.BestSeller[0]);
+       setSaleIn24Hours(stat.data.SaleIn24Hours[0]);
+       setTopfiveBestSeller(stat.data.TopfiveBestSeller[0]);
+      //console.log(stat.data.BestSeller[0]);
+     } )
+    .catch((err) => {
+      console.log(err);
+    })
+  }
 
   useEffect(() => {
-    getAllDashBoards();
-}, []);
+    fetchStat();
+  }, []);
+
+  // const getAllDashBoards = async () => {
+  //   try {
+  //     dispatch({
+  //       type: "SHOW_LOADING",
+  //     });
+  //     const {data} = await axios.get('/api/bills/');
+  //     setDashBoardsData(data);
+  //     dispatch({
+  //       type: "HIDE_LOADING",
+  //     });
+  //     console.log(data);
+
+  //   } catch(error) {
+  //     dispatch({
+  //       type: "HIDE_LOADING",
+  //     });
+  //     console.log(error);
+  //   }
+  // };
+
+//   useEffect(() => {
+//     getAllDashBoards();
+// }, []);
 
   const dataLine = [
     {
-      total: 0,
+      total: SaleIn24Hours.count,
       time: 0,
     },
     {
@@ -115,25 +143,29 @@ const Dashboards = () => {
 
   const dataColume = [
     {
-      name: 'คอนเฟลก',
-      total: 500,
+      name: TopfiveBestSeller._id,
+      total: TopfiveBestSeller.count,
     },
-    {
-      name: 'บราวนี่กรอบ',
-      total: 800,
-    },
-    {
-      name: 'ซอฟเค้ก',
-      total: 400,
-    },
-    {
-      name: 'ซากุระโฮลวีท',
-      total: 350,
-    },
-    {
-      name: 'เค้กวนิลา',
-      total: 700,
-    },
+    // {
+    //   name: 'คอนเฟลก',
+    //   total: 500,
+    // },
+    // {
+    //   name: 'บราวนี่กรอบ',
+    //   total: 800,
+    // },
+    // {
+    //   name: 'ซอฟเค้ก',
+    //   total: 400,
+    // },
+    // {
+    //   name: 'ซากุระโฮลวีท',
+    //   total: 350,
+    // },
+    // {
+    //   name: 'เค้กวนิลา',
+    //   total: 700,
+    // },
   ];
 
   const configLine = {
@@ -208,17 +240,24 @@ const Dashboards = () => {
     <Row gutter={16}>
       <Col span={8}>
         <Card title="ยอดขายรวม" bordered={false} style={{background:"#EEFFDD"}}>
-          <p style={{color:"#228B22" , fontSize: 50}}>฿ 5,670.00</p>
+          <p style={{color:"#228B22" , fontSize: 50}}>฿
+          {
+            totalSell ? totalSell : 0
+          }
+          </p>
         </Card>
       </Col>
       <Col span={8}>
         <Card title="ยอดรายการขาย" bordered={false} style={{background:"#FBEECE"}}>
-          <p style={{color:"#EF8355" , fontSize: 50}}>26 รายการ</p>
+          <p style={{color:"#EF8355" , fontSize: 50}}>{
+            totalOrder ? totalOrder : 0
+          } รายการ</p>
         </Card>
       </Col>
       <Col span={8}>
         <Card title="ยอดขายวันนี้" bordered={false}>
-          <p style={{color:"#228B22" , fontSize: 50}}>฿ 2,800.00</p>
+          <p style={{color:"#228B22" , fontSize: 50}}>฿ { totalIncomeToday ? totalIncomeToday : 0}</p>
+          
         </Card>
       </Col>
     </Row>
