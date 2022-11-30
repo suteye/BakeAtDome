@@ -39,7 +39,7 @@ const Products = () => {
   };
   
   useEffect(() => {
-    getProducts();
+    getProducts();// eslint-disable-next-line
   }, [])
 
   const createProduct = async (value) => {
@@ -177,7 +177,7 @@ const Products = () => {
         return (
           <span>
             <Button type="primary" onClick={() => {setEditProduct(record); setPopModal(true)}} icon={<EditOutlined />} />
-            <Button type="danger" onClick={() => {deleteProduct(id)}} icon={<DeleteOutlined />} />
+            <Button type="primary" danger onClick={() => {deleteProduct(id)}} icon={<DeleteOutlined />} />
           </span>
         );
       }
