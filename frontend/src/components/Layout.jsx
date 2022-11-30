@@ -41,9 +41,6 @@ const LayoutApp = ({children}) => {
             <h2 className="logo-title">Bake@Dome</h2>
         </div>
       <Menu theme="dark" defaultSelectedKeys={window.location.pathname} mode="inline"  >
-           <Menu.Item key='/dashboards' icon={<BarChartOutlined />}>
-                <Link to="/dashboards">แดชบอร์ด</Link>
-            </Menu.Item>
             <Menu.Item key='/' icon={<ShopOutlined />}>
                 <Link to="/">หน้าขาย</Link>
             </Menu.Item>

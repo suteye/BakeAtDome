@@ -9,6 +9,7 @@ const  product = require('./routes/Product');
 const auth = require('./routes/Auth');
 const employees = require('./routes/Employees');
 const bills = require('./routes/Bills');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 
 require('colors');
@@ -18,8 +19,19 @@ dotenv.config();
 
 const app = express();
 
+
+
+
 //middlewares 
 app.use(cors());
+
+//http proxy middleware
+const apiProxy = createProxyMiddleware('/api/*', { 
+    target: 'http://127.0.0.1:5500', //backend server
+    changeOrigin: true, // for vhosted sites, changes host header to match to target's host
+    secure: false, // if you want to verify the SSL Certs
+    logLevel: 'debug' // log level for proxy
+});
 
 app.use(express.json());
 app.use(bodyParser.json());
