@@ -5,8 +5,6 @@
 /.pnp
 .pnp.js
 # configuration
-/backend/.env
-/backend/credentials.json
 
 # misc
 .DS_Store
