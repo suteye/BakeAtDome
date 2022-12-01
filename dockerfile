@@ -1,20 +1,9 @@
 FROM node:16
 
-# app
+# shell scripts
 WORKDIR /app
-COPY . .
-RUN npm install
+ADD start_ubuntu.sh /app
+RUN chmod +x /app/start_ubuntu.sh
+EXPOSE 3000
 
-# frontend
-WORKDIR /app/frontend
-RUN npm i -f
-
-# backend
-WORKDIR /app/backend
-RUN npm i -f
-
-#  shell scripts
-WORKDIR /app
-ADD start.sh /app
-RUN chmod +x /app/start.sh
-CMD [ "./start.sh" ]
+CMD [ "/bin/bash", "./start_ubuntu.sh" ]
