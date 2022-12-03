@@ -4,6 +4,7 @@
 sudo yum update -y
 
 #configure mongoDB
+
 # sudo touch /etc/yum.repos.d/mongodb-org-6.0.repo
 # echo "[mongodb-org-6.0]" >> mongodb-org-6.0.repo
 # echo "name=MongoDB Repository" >> mongodb-org-6.0.repo
@@ -45,7 +46,7 @@ sudo npm install -g npm@latest
 sudo npm install -g pm2
 
 #install web
-# git clone https://github.com/suteye/BakeAtDome.git
+git clone https://github.com/suteye/BakeAtDome.git
 cd BakeAtDome
 
 #go to frontend
