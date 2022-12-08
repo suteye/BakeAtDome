@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../components/Layout'
 import { DeleteOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Modal, Select, Table } from 'antd';
-import FormItem from 'antd/lib/form/FormItem';
+import { Button, Form, Modal, Select, Table } from 'antd';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -42,21 +43,21 @@ const Cart = () => {
 
     const columns = [
         {
-            title: "Name",
+            title: "ชื่อสินค้า",
             dataIndex: "name"
         },
         {
-            title: "Image",
+            title: "รูปภาพ",
             dataIndex: "image",
             render:(image, record) => <img src={image} alt={record.name} height={60} width={60} />
         }, 
         {
-            title: "Price",
+            title: "ราคา",
             dataIndex: "price",
         }
         , 
         {
-            title: "Quantity",
+            title: "จำนวน",
             dataIndex: "_id",
             render:(id, record) => 
                 <div>
@@ -74,7 +75,6 @@ const Cart = () => {
     ]
 
     useEffect(() => {
-
         let temp = 0;
         cartItems.forEach((product) => (temp = temp + product.price * product.quantity));
         setSubTotal(temp); 
@@ -82,22 +82,45 @@ const Cart = () => {
     }, [cartItems]);
 
     const handlerSubmit = async (value) => {
-        //console.log(value);
+        console.log(value);
         try {
             const newObject = {
                 ...value,
                 cartItems,
                 subTotal,
-                tax: Number(((subTotal / 100) * 10).toFixed(2)),
-                totalAmount: Number((Number(subTotal) + Number(((subTotal / 100) * 10).toFixed(2))).toFixed(2)),
-                userId: JSON.parse(localStorage.getItem("auth"))._id
+                //totalAmount: Number((Number(subTotal) + Number(((subTotal / 100) * 10).toFixed(2))).toFixed(2)),
+                //userId: JSON.parse(localStorage.getItem("auth"))._id
             }
-            await axios.post("/api/bills/addbills", newObject);
-            message.success("Bill Generated!");
-            navigate("/bills");
+            dispatch({type: "SHOW_LOADING"})
+            await axios.post("/api/bills/create", newObject).then(res => {
+              let statusCode = res.status, message = res.data.message;
+                if(statusCode === 201){
+                  dispatch({type: "CHECKOUT"})
+                  dispatch({type: "HIDE_LOADING"})
+                  setBillPopUp(false);
+                  Swal.fire({ 
+                    title: 'สำเร็จ',
+                    text: message,
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                  }).then(() => {
+                    dispatch({type: "HIDE_LOADING"})
+                    navigate("/");
+                  })
+                }
+            })
         } catch(error) {
-            message.error("Error!")
-            console.log(error);
+          dispatch({type: "HIDE_LOADING"})
+            if(error.response.status === 500) {
+              Swal.fire({
+                title: 'ผิดพลาด',
+                text: error.response.data.message,
+                icon: 'error',
+                timer: 1500,
+                confirmButtonText: 'ลองใหม่อีกครั้ง'
+              });
+            }
         }
     }
   return (
@@ -105,34 +128,22 @@ const Cart = () => {
       <h2>Cart</h2>
       <Table dataSource={cartItems} columns={columns} bordered />
       <div className="subTotal">
-        <h2>Sub Total: <span>$ {(subTotal).toFixed(2)}</span></h2>
-        <Button onClick={() => setBillPopUp(true)} className='add-new'>Create Invoice</Button>
+        <h2>รวม: <span>{(subTotal).toFixed(2)} ฿</span></h2>
+        <Button onClick={() => setBillPopUp(true)} className='add-new'>ชำระเงิน</Button>
       </div>
       <Modal title="Create Invoice" visible={billPopUp} onCancel={() => setBillPopUp(false)} footer={false}>
         <Form layout='vertical' onFinish={handlerSubmit}>
-            <FormItem name="customerName" label="Customer Name">
-              <Input/>
-            </FormItem>
-            <FormItem name="customerPhone" label="Customer Phone">
-              <Input/>
-            </FormItem>
-            <FormItem name="customerAddress" label="Customer Address">
-              <Input/>
-            </FormItem>
-            <Form.Item name="paymentMethod" label="Payment Method">
+            <Form.Item name="paymentMethod" label="ประเภทการชำระเงิน">
               <Select>
-                <Select.Option value="cash">Cash</Select.Option>
-                <Select.Option value="paypal">Paypal</Select.Option>
-                <Select.Option value="Card">Card</Select.Option>
+                <Select.Option value="เงินสด">เงินสด</Select.Option>
+                <Select.Option value="คิวอาร์">คิวอาร์ (พร้อมเพย์)</Select.Option>
               </Select>
             </Form.Item>
             <div className="total">
-                <span>SubTotal: ${(subTotal.toFixed(2))}</span><br />
-                <span>Tax: ${((subTotal / 100) * 10).toFixed(2)}</span>
-                <h3>Total: ${(Number(subTotal) + Number(((subTotal / 100) * 10).toFixed(2))).toFixed(2)}</h3>
+                <h3>รวม: {(subTotal.toFixed(2))} ฿</h3>
             </div>
             <div className="form-btn-add">
-              <Button htmlType='submit' className='add-new'>Generate Invoice</Button>
+              <Button htmlType='submit' className='add-new'>ชำระเงิน</Button>
             </div>  
         </Form>
       </Modal>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Button, Form, Input, Modal, Select, Table } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
@@ -14,14 +15,13 @@ const Employees = () => {
   const [popModal, setPopModal] = useState(false);
   const [editEmployee, setEditEmployee] = useState(false);
   
-
-
   const getAllEmployees = async () => {
     try {
       dispatch({
         type: "SHOW_LOADING",
       });
       const {data} = await axios.get('/api/employees/getEmployees');
+      console.log(data);
       setEmployeesData(data);
       dispatch({
         type: "HIDE_LOADING",
@@ -33,11 +33,90 @@ const Employees = () => {
       });
       console.log(error);
     }
-  };
+  }; 
 
   useEffect(() => {
     getAllEmployees();
   }, []);  // eslint-disable-line
+
+  const handlerSubmit = async (value) => {
+
+    if(editEmployee === false) {
+      try {
+        dispatch({
+          type: "SHOW_LOADING",
+        });
+        await axios.post('/api/employees/addEmployees', value).then((res) => {
+          let statusCode = res.status, message = res.data.message;
+          if(statusCode === 201) {
+            Swal.fire({
+              title: 'สำเร็จ',
+              text: message,
+              icon: 'success',
+              confirmButtonText: 'ตกลง'
+            });
+            getAllEmployees();
+            setPopModal(false);
+          } 
+        });
+      
+        dispatch({
+          type: "HIDE_LOADING",
+        });
+      
+      } catch(error) {
+        dispatch({
+          type: "HIDE_LOADING",
+        });
+
+        if(error.response.status === 409) {
+          Swal.fire({
+            title: 'ผิดพลาด',
+            text: error.response.data.message,
+            icon: 'error',
+            confirmButtonText: 'แก้ไขใหม่'
+          });
+        }
+      }
+    } else {
+      try {
+        dispatch({
+          type: "SHOW_LOADING",
+        });
+       await axios.put('/api/employees/updateEmployees', {...value, employeeId:editEmployee._id}).then((res) => {
+        let statusCode = res.status, message = res.data.message;
+        if(statusCode === 201) {
+          Swal.fire({
+            title: 'สำเร็จ',
+            text: message,
+            icon: 'success',
+            confirmButtonText: 'ตกลง'
+          });
+          getAllEmployees();
+          setPopModal(false);
+        }
+       });
+
+        dispatch({
+          type: "HIDE_LOADING",
+        });
+        
+  
+      } catch(error) {
+        dispatch({
+          type: "HIDE_LOADING",
+        });
+        if(error.response.status === 409) {
+          Swal.fire({
+            title: 'ผิดพลาด',
+            text: error.response.data.message,
+            icon: 'error',
+            confirmButtonText: 'แก้ไขใหม่'
+          });
+        }
+      }
+    }
+  }
 
   const handlerDelete = async (record) => {
     try {
@@ -55,15 +134,7 @@ const Employees = () => {
         });
         getAllEmployees();
         setPopModal(false);
-      } else {
-        Swal.fire({
-          title: 'ผิดพลาด',
-          text: message,
-          icon: 'error',
-          confirmButtonText: 'ตกลง'
-        });
-      }
-
+      } 
      });
       dispatch({
         type: "HIDE_LOADING",
@@ -72,10 +143,18 @@ const Employees = () => {
       dispatch({
         type: "HIDE_LOADING",
       });
-      console.log(error);
+      if(error.response.status === 409) {
+        Swal.fire({
+          title: 'ผิดพลาด',
+          text: error.response.data.message,
+          icon: 'error',
+          confirmButtonText: 'แก้ไขใหม่'
+        });
+      }
     }
   }
 
+  
   const columns = [
     {
         title: "รหัสพนักงาน",
@@ -106,84 +185,7 @@ const Employees = () => {
   }
   ]
 
-  const handlerSubmit = async (value) => {
 
-    if(editEmployee === false) {
-      try {
-        dispatch({
-          type: "SHOW_LOADING",
-        });
-        await axios.post('/api/employees/addEmployees', value).then((res) => {
-          let statusCode = res.status, message = res.data.message;
-          if(statusCode === 201) {
-            Swal.fire({
-              title: 'สำเร็จ',
-              text: message,
-              icon: 'success',
-              confirmButtonText: 'ตกลง'
-            });
-            getAllEmployees();
-            setPopModal(false);
-          } else {
-            Swal.fire({
-              title: 'ผิดพลาด',
-              text: message,
-              icon: 'error',
-              confirmButtonText: 'ตกลง'
-            });
-          }
-        });
-      
-        dispatch({
-          type: "HIDE_LOADING",
-        });
-        
-  
-      } catch(error) {
-        dispatch({
-          type: "HIDE_LOADING",
-        });
-        console.log(error);
-      }
-    } else {
-      try {
-        dispatch({
-          type: "SHOW_LOADING",
-        });
-       await axios.put('/api/employees/updateEmployees', {...value, employeeId:editEmployee._id}).then((res) => {
-        let statusCode = res.status, message = res.data.message;
-        if(statusCode === 201) {
-          Swal.fire({
-            title: 'สำเร็จ',
-            text: message,
-            icon: 'success',
-            confirmButtonText: 'ตกลง'
-          });
-          getAllEmployees();
-          setPopModal(false);
-        } else {
-          Swal.fire({
-            title: 'ผิดพลาด',
-            text: message,
-            icon: 'error',
-            confirmButtonText: 'ตกลง'
-          });
-        }
-       });
-
-        dispatch({
-          type: "HIDE_LOADING",
-        });
-        
-  
-      } catch(error) {
-        dispatch({
-          type: "HIDE_LOADING",
-        });
-        console.log(error);
-      }
-    }
-  }
 
   return (
     <Layout>

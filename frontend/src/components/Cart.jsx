@@ -1,26 +1,30 @@
+/* eslint-disable no-unused-vars */
 import React, {useEffect,useState} from 'react'
 //import { Link, useNavigate } from 'react-router-dom';
 import { useSelector,useDispatch } from 'react-redux';
 import { DeleteOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import {  Row,Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-    const {cartItems, loading} = useSelector(state => state.rootReducer)
+    const {cartItems} = useSelector(state => state.rootReducer);
     const [subTotal, setSubTotal] = useState(0);
+        
+        const navigate = useNavigate()
+        const dispatch = useDispatch();
 
-
-      //const navigate = useNavigate();
-      const dispatch = useDispatch();
-
+      //checkout and update stock
+      
       const handlerCheckout = () => {
-        console.log(cartItems);
+        dispatch({
+          type: "CHECKOUT",
+        })
       }
 
-      //handler delete by item
-      const handlerDelete = (index) => {
+      const handlerDelete = (record) => {
         dispatch({
           type: "DELETE_FROM_CART",
-          payload: index
+          payload: record
         });
       }
       const handlerIncrement = (record) => {
@@ -57,7 +61,7 @@ const Cart = () => {
             </div>
         </div>
         <Row>
-            <Button style={{ backgroundColor: '#EF8355', borderColor: '#EF8355', color: "white"}} block size='large'  onClick={handlerCheckout}>ชำระเงิน</Button>
+            <Button style={{ backgroundColor: '#EF8355', borderColor: '#EF8355', color: "white"}} block size='large'  onClick={() => navigate('/cart')}>ชำระเงิน</Button>
         </Row>
             {/* block order */}
             <div style={{zIndex:1, position:'relative'}}>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import { Row, Input, Select, Card} from 'antd';
@@ -26,7 +27,7 @@ const Home = () => {
           dispatch({
             type: "SHOW_LOADING",
           });
-          const {data} = await axios.get(`/api/products/getProducts`);
+          const {data} = await axios.get(`/api/products/`);
 
 
           setProductData(data);

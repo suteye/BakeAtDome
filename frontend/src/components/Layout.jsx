@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import {
@@ -40,9 +41,6 @@ const LayoutApp = ({children}) => {
             <h2 className="logo-title">Bake@Dome</h2>
         </div>
       <Menu theme="dark" defaultSelectedKeys={window.location.pathname} mode="inline"  >
-           <Menu.Item key='/dashboards' icon={<BarChartOutlined />}>
-                <Link to="/dashboards">แดชบอร์ด</Link>
-            </Menu.Item>
             <Menu.Item key='/' icon={<ShopOutlined />}>
                 <Link to="/">หน้าขาย</Link>
             </Menu.Item>
@@ -65,8 +63,11 @@ const LayoutApp = ({children}) => {
       </Header>
       <Content style={{ margin: '0 16px'  }}>
         <Breadcrumb style={{  margin: '16px 0'  }}>
-          <Breadcrumb.Item>User</Breadcrumb.Item>
-          <Breadcrumb.Item>Bill</Breadcrumb.Item>
+          <Breadcrumb.Item>หน้าแรก</Breadcrumb.Item>
+
+          <Breadcrumb.Item>
+            {window.location.pathname === "/" ? "หน้าขาย" : window.location.pathname === "/products" ? "สต็อก" : window.location.pathname === "/employees" ? "พนักงาน" : window.location.pathname === "/bills" ? "ประวัติการขาย" : window.location.pathname === "/dashboards" ? "แดชบอร์ด" : ""}
+          </Breadcrumb.Item>
         </Breadcrumb>
         <div style={{padding: 24, minHeight: 360}}>
           {loading ? <Spinner /> : children}
