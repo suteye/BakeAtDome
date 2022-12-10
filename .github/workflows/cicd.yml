@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: Xotabu4/selenoid-github-action@v2
+    # - uses: Xotabu4/selenoid-github-action@v2
 
     - name: Set up node.js
       uses: actions/setup-node@v3
@@ -54,17 +54,21 @@ jobs:
       working-directory: ./backend
       run: pm2 start 'npm run server' -n backend
 
-    - name: Wait for frontend to start
+    - name: Start webdriver
+      working-directory: ./frontend
+      run: pm2 start 'npm run web' -n webdriver
+
+    - name: Wait 10 seconds
       run: sleep 10
-      
-    - name: check frontend is running
+
+    - name: Check frontend is running
       run: curl http://127.0.0.1:3000
 
     - name: Test frontend
       working-directory: ./frontend
       run: npm run test:protractor
 
-    - name: check backend is running
+    - name: Check backend is running
       run: curl http://127.0.0.1:5500
 
     - name: Test backend
