@@ -12,7 +12,7 @@ describe('Login & Logout Backend', () => {
 
     it('Login Failed: Invalid Password: Return status 401', async () => {
         const respond = await request(loginBaseURL).post('/login').send({
-            username: "athip.b@tu.ac.th", password: "demo"
+            username: "sutima.phe@dome.tu.ac.th", password: "demo"
         });
         expect(respond.statusCode).toBe(401);
     });
@@ -33,7 +33,7 @@ describe('Login & Logout Backend', () => {
 
     it('Login Failed: Password is empty: Return status 400', async () => {
         const respond = await request(loginBaseURL).post('/login').send({
-            username: "athip.b@tu.ac.th"
+            username: "sutima.phe@dome.tu.ac.th"
         });
         expect(respond.statusCode).toBe(400);
     });
@@ -47,7 +47,7 @@ describe('Login & Logout Backend', () => {
 
     // it('Logout Success: return status 200', async () => {     
     //     respond = await request(loginBaseURL).post('/login').send({
-    //         username: "athip.b@tu.ac.th", password: "demo12345"
+    //         username: "sutima.phe@dome.tu.ac.th", password: "demo12345"
     //     });
     //     // console.log(respond);
         
@@ -57,7 +57,7 @@ describe('Login & Logout Backend', () => {
 
     it('Login Success: return status 200', async () => {
         const respond = await request(loginBaseURL).post('/login').send({
-            username: "athip.b@tu.ac.th", password: "demo12345"
+            username: "sutima.phe@dome.tu.ac.th", password: "demo12345"
         });
         let data = JSON.parse(respond.text);
         expect(data.message).toBe('เข้าสู่ระบบสำเร็จ');
