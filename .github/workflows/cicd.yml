@@ -50,9 +50,9 @@ jobs:
       working-directory: ./backend
       run: npm run test
 
-    - name: Update web-driver
+    - name: Update and start webdriver
       working-directory: ./frontend
-      run: npm run web
+      run: pm2 start 'npm run web' -n webdriver
 
     - name: Test frontend
       working-directory: ./frontend
@@ -60,7 +60,7 @@ jobs:
 
       
   build:
-    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
+    # if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     needs: [ test ]
     runs-on: ubuntu-latest
 
