@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: Xotabu4/selenoid-github-action@v2
+    # - uses: Xotabu4/selenoid-github-action@v2
 
     - name: Set up node.js
       uses: actions/setup-node@v3
@@ -44,26 +44,25 @@ jobs:
       run: npm ci --legacy-peer-deps
 
     - name: Install pm2 globally
-      run: npm install -g pm2
+      run: npm ci -g pm2
 
     - name: Start backend
       working-directory: ./backend
       run: pm2 start 'npm run server' -n backend
 
-    - name: check backend is running
-      run: curl http://127.0.0.1:5500
-      
     - name: Start frontend
       working-directory: ./frontend
       run: pm2 start 'npm start' -n frontend
 
-    - name: check frontend is running
-      run: curl http://127.0.0.1:3000
+    # - name: check frontend is running
+    #   run: curl http://127.0.0.1:3000
 
     - name: Test backend
       working-directory: ./backend
       run: npm run test
 
+    - name: check backend is running
+      run: curl http://127.0.0.1:5500
 
 
     # - name: check pm2 logs 
