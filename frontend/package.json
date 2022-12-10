@@ -26,6 +26,7 @@
     "test:protractor": "protractor test/conf.js",
     "web:update": "webdriver-manager update",
     "web:start": "webdriver-manager start",
+    "web": "npm run web:update && npm run web:start",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

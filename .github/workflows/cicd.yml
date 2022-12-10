@@ -21,7 +21,12 @@ jobs:
       with:
         node-version: '16'
         cache: 'npm'
-        
+
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.8.0
+      with:
+        mongodb-version: '6.0'
+
     - name: Install dependencies backend
       working-directory: ./backend
       run: npm install --legacy-peer-deps
@@ -30,17 +35,24 @@ jobs:
       working-directory: ./frontend
       run: npm install --legacy-peer-deps
 
+    - name: Install pm2 globally
+      run: npm install -g pm2
+
     - name: Start backend
       working-directory: ./backend
-      run: npm run server
+      run: pm2 start 'npm run server' -n backend
       
     - name: Start frontend
       working-directory: ./frontend
-      run: npm start
+      run: pm2 start 'npm start' -n frontend
 
     - name: Test backend
       working-directory: ./backend
       run: npm run test
+
+    - name: Update web-driver
+      working-directory: ./frontend
+      run: npm run web
 
     - name: Test frontend
       working-directory: ./frontend
@@ -94,31 +106,7 @@ jobs:
   #     env: 
   #       KEY_PAIR_NAME: ${{ secrets.AWS_KEYPAIR_NAME }}
   #       SECGROUP_ID: ${{ secrets.AWS_SECGROUP_ID }}
-  #     run: aws ec2 run-instances --image-id ami-04902260ca3d33422 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID
+  #     run: aws ec2 run-instances --image-id ami-04902260ca3d33422 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID --user-data file://user_data.txt 
+          
 
-  # test:
-  #   if: ${{ always() }}
-  #   needs: [ build ]
 
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #   - name: install Docker client
-  #     run: |
-  #       sudo apt-get update
-  #       sudo apt-get -y install --no-install-recommends docker.io
-  #   - name: Run docker
-  #     uses: addnab/docker-run-action@v3
-  #     with:
-  #       image: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
-  #       run: docker run ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
-  #   - name: show running containers
-  #     run: docker ps
-
-  #   - name: Test backend
-  #     working-directory: ./app/backend
-  #     run: npm run test
-
-  #   - name: Test frontend
-  #     working-directory: ./app/frontend
-  #     run: npm run test:protractor
