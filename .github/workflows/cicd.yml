@@ -54,7 +54,9 @@ jobs:
       working-directory: ./backend
       run: pm2 start 'npm run server' -n backend
 
-
+    - name: Wait for frontend to start
+      run: sleep 10
+      
     - name: check frontend is running
       run: curl http://127.0.0.1:3000
 
