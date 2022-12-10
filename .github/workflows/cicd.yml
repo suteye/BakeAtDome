@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # - uses: Xotabu4/selenoid-github-action@v2
+    - uses: Xotabu4/selenoid-github-action@v2
 
     - name: Set up node.js
       uses: actions/setup-node@v3
@@ -46,28 +46,28 @@ jobs:
     - name: Install pm2 globally
       run: npm install -g pm2
 
-    - name: Start backend
-      working-directory: ./backend
-      run: pm2 start 'npm run server' -n backend
-
     - name: Start frontend
       working-directory: ./frontend
       run: pm2 start 'npm start' -n frontend
 
-    # - name: check frontend is running
-    #   run: curl http://127.0.0.1:3000
-
-    - name: Test backend
+    - name: Start backend
       working-directory: ./backend
-      run: npm run test
+      run: pm2 start 'npm run server' -n backend
+
+
+    - name: check frontend is running
+      run: curl http://127.0.0.1:3000
+
+    - name: Test frontend
+      working-directory: ./frontend
+      run: npm run test:protractor
 
     - name: check backend is running
       run: curl http://127.0.0.1:5500
 
-
-    # - name: check pm2 logs 
-    #   run: pm2 logs 
-
+    - name: Test backend
+      working-directory: ./backend
+      run: npm run test
 
 
     # - name: Update and start webdriver
@@ -82,9 +82,6 @@ jobs:
     #     npm run web:update
     #     pm2 start 'npm run web:start' -n webdriver
 
-    # - name: Test frontend
-    #   working-directory: ./frontend
-    #   run: npm run test:protractor
 
       
   build:
