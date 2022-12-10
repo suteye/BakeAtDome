@@ -60,7 +60,7 @@ jobs:
 
       
   build:
-    if: ${{ always() }}
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     needs: [ test ]
     runs-on: ubuntu-latest
 
