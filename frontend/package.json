@@ -6,7 +6,6 @@
     "@ant-design/icons": "^4.8.0",
     "antd": "^5.0.2",
     "axios": "^1.2.0",
-    "cypress": "^12.0.2",
     "http-proxy-middleware": "^2.0.6",
     "jest": "^27.5.1",
     "protractor": "^7.0.0",
@@ -51,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^12.0.2"
   }
 }
