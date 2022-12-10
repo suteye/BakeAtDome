@@ -40,5 +40,7 @@ describe('Protractor Test', function() {
         })
         browser.sleep(5000)
     });
-    //compare other list with detail topic
+    //compare other list with detail topic table
+    //check for bills with eye button
+    
 });
