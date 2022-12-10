@@ -58,6 +58,9 @@ jobs:
       working-directory: ./backend
       run: npm run test
 
+    - name: check pm2 logs 
+      run: pm2 logs 
+      
 
 
     # - name: Update and start webdriver
@@ -72,9 +75,9 @@ jobs:
     #     npm run web:update
     #     pm2 start 'npm run web:start' -n webdriver
 
-    - name: Test frontend
-      working-directory: ./frontend
-      run: npm run test:protractor
+    # - name: Test frontend
+    #   working-directory: ./frontend
+    #   run: npm run test:protractor
 
       
   build:
