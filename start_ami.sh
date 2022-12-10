@@ -3,16 +3,6 @@
 #update packages
 sudo yum update -y
 
-#configure mongoDB
-
-# sudo touch /etc/yum.repos.d/mongodb-org-6.0.repo
-# echo "[mongodb-org-6.0]" >> mongodb-org-6.0.repo
-# echo "name=MongoDB Repository" >> mongodb-org-6.0.repo
-# echo "baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/6.0/x86_64/" >> mongodb-org-6.0.repo
-# echo "gpgcheck=1" >> mongodb-org-6.0.repo
-# echo "enabled=1" >> mongodb-org-6.0.repo
-# echo "gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc" >> mongodb-org-6.0.repo
-
 #Configure the package management system (yum)
 touch mongodb-org-6.0.repo
 echo "[mongodb-org-6.0]" >> mongodb-org-6.0.repo

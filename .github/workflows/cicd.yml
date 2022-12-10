@@ -2,15 +2,38 @@ name: BakeAtDome
 
 on:
   push:
-    branches: [ main ]
+    branches: [ Dev-Eye ]
   pull_request:
     types: [ opened, reopened, closed, edited ]
   merge_group:
     types: [checks_requested]
-    branches: [ main ]
+    branches: [ Dev-Eye ]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        cache: 'npm'
+
+    - name: Test backend
+      working-directory: ./app/backend
+      run: npm run test
+
+    - name: Test frontend
+      working-directory: ./app/frontend
+      run: npm run test:protractor
+
+      
   build:
+    if: ${{ always() }}
+    needs: [ test ]
     runs-on: ubuntu-latest
 
     steps:
@@ -33,31 +56,53 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
+        tags: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome-image:latest
+  
+  # deploy:
+  #   if: ${{ always() }}
+  #   needs: [ build ]
+  #   runs-on: ubuntu-latest
 
-  test:
-    if: ${{ always() }}
-    needs: [ build ]
+  #   steps:
+  #   - name: Configure AWS credentials
+  #     if: success()
+  #     uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
+  #     with:
+  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+  #       aws-region: ${{ secrets.AWS_REGION }}
+ 
+  #   - name: Create EC2 and deploy application to EC2
+  #     if: success()
+  #     env: 
+  #       KEY_PAIR_NAME: ${{ secrets.AWS_KEYPAIR_NAME }}
+  #       SECGROUP_ID: ${{ secrets.AWS_SECGROUP_ID }}
+  #     run: aws ec2 run-instances --image-id ami-04902260ca3d33422 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID
 
-    runs-on: ubuntu-latest
+  # test:
+  #   if: ${{ always() }}
+  #   needs: [ build ]
 
-    steps:
-    - name: install Docker client
-      run: |
-        sudo apt-get update
-        sudo apt-get -y install --no-install-recommends docker.io
-    - name: Run docker
-      uses: addnab/docker-run-action@v3
-      with:
-        image: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
-        run: docker run ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
-    - name: show running containers
-      run: docker ps
+  #   runs-on: ubuntu-latest
 
-    - name: Test backend
-      working-directory: ./app/backend
-      run: npm run test
+  #   steps:
+  #   - name: install Docker client
+  #     run: |
+  #       sudo apt-get update
+  #       sudo apt-get -y install --no-install-recommends docker.io
+  #   - name: Run docker
+  #     uses: addnab/docker-run-action@v3
+  #     with:
+  #       image: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
+  #       run: docker run ${{ secrets.DOCKER_USERNAME }}/bake-at-dome:${{ github.run_number }}
+  #   - name: show running containers
+  #     run: docker ps
 
-    - name: Test frontend
-      working-directory: ./app/frontend
-      run: npm run test:protractor
+  #   - name: Test backend
+  #     working-directory: ./app/backend
+  #     run: npm run test
+
+  #   - name: Test frontend
+  #     working-directory: ./app/frontend
+  #     run: npm run test:protractor
