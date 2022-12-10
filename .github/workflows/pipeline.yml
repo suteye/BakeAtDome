@@ -135,6 +135,7 @@ jobs:
  
     - name: Create EC2 and deploy application to EC2
       if: success()
+      working-directory: ./ 
       env: 
         KEY_PAIR_NAME: ${{ secrets.AWS_KEYPAIR_NAME }}
         SECGROUP_ID: ${{ secrets.AWS_SECGROUP_ID }}
