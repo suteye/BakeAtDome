@@ -55,11 +55,14 @@ jobs:
     #   run: |
     #     npm run webdriver:update
     #     npm run webdriver:start
-    - name: Test frontend
-      uses: BerniWittmann/background-server-action@latest
-      with:
-        command: npm run web
-        start: npm run test:protractor
+  
+    - name: Update and start webdriver
+      working-directory: ./frontend
+      background: true
+      run: |
+        npm run webdriver:update
+        npm run webdriver:start
+
 
 
     # - name: Test frontend
