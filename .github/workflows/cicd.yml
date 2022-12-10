@@ -37,11 +37,11 @@ jobs:
 
     - name: Install dependencies backend
       working-directory: ./backend
-      run: npm install --legacy-peer-deps
+      run: npm ci --legacy-peer-deps
 
     - name: Install dependencies frontend
       working-directory: ./frontend
-      run: npm install --legacy-peer-deps
+      run: npm ci --legacy-peer-deps
 
     - name: Install pm2 globally
       run: npm install -g pm2
@@ -49,20 +49,26 @@ jobs:
     - name: Start backend
       working-directory: ./backend
       run: pm2 start 'npm run server' -n backend
+
+    - name: check backend is running
+      run: curl http://localhost:5500
       
     - name: Start frontend
       working-directory: ./frontend
       run: pm2 start 'npm start' -n frontend
 
+    - name: check frontend is running
+      run: curl http://localhost:3000
+
     - name: Test backend
       working-directory: ./backend
       run: npm run test
 
+
+
     # - name: check pm2 logs 
     #   run: pm2 logs 
 
-    - name: check frontend is running
-      run: curl http://localhost:3000
 
 
     # - name: Update and start webdriver
