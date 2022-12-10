@@ -13,6 +13,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      selenium:
+        image: selenium/standalone-${{ github.event.inputs.browser }}
+
     steps:
     - uses: actions/checkout@v3
 
@@ -50,17 +54,19 @@ jobs:
       working-directory: ./backend
       run: npm run test
 
+
+
     # - name: Update and start webdriver
     #   working-directory: ./frontend
     #   run: |
     #     npm run webdriver:update
     #     npm run webdriver:start
   
-    - name: Update and start webdriver and run protractor tests
-      working-directory: ./frontend
-      run: |
-        npm run web:update
-        pm2 start 'npm run web:start' -n webdriver
+    # - name: Update and start webdriver and run protractor tests
+    #   working-directory: ./frontend
+    #   run: |
+    #     npm run web:update
+    #     pm2 start 'npm run web:start' -n webdriver
 
     - name: Test frontend
       working-directory: ./frontend
