@@ -58,9 +58,11 @@ jobs:
       working-directory: ./backend
       run: npm run test
 
-    - name: check pm2 logs 
-      run: pm2 logs 
-      
+    # - name: check pm2 logs 
+    #   run: pm2 logs 
+
+    - name: check frontend is running
+      run: curl http://localhost:3000
 
 
     # - name: Update and start webdriver
