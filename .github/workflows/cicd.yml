@@ -22,8 +22,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: browser-actions/setup-chrome@latest
-    - run: chrome --version
+    - uses: abhi1693/setup-browser@v0.3.4
+      with:
+        browser: chrome
+        version: latest
 
     # - uses: Xotabu4/selenoid-github-action@v2
 
