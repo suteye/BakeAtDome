@@ -22,20 +22,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # - uses: browser-actions/setup-chrome@latest
-    # - run: chrome --version
-
-    - uses: nanasess/setup-chromedriver@v1
-      with:
-        # Optional: do not specify to match Chrome's version
-        chromedriver-version: '88.0.4324.96'
-    - run: |
-        export DISPLAY=:99
-        chromedriver --url-base=/wd/hub &
-        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-
-    # - uses: Xotabu4/selenoid-github-action@v2
-
     - name: Set up node.js
       uses: actions/setup-node@v3
       with:
@@ -66,9 +52,9 @@ jobs:
       working-directory: ./backend
       run: pm2 start 'npm run server' -n backend
 
-    - name: Start webdriver
-      working-directory: ./frontend
-      run: pm2 start 'npm run web' -n webdriver
+    # - name: Start webdriver
+    #   working-directory: ./frontend
+    #   run: pm2 start 'npm run web' -n webdriver
 
     - name: Wait 10 seconds
       run: sleep 10
@@ -76,9 +62,13 @@ jobs:
     - name: Check frontend is running
       run: curl http://127.0.0.1:3000
 
+    # - name: Test frontend
+    #   working-directory: ./frontend
+    #   run: npm run test:protractor
+
     - name: Test frontend
       working-directory: ./frontend
-      run: npm run test:protractor
+      run: npm run cypress:run
 
     - name: Check backend is running
       run: curl http://127.0.0.1:5500
