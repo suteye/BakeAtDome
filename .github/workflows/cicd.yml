@@ -59,8 +59,8 @@ jobs:
     - name: Update and start webdriver and run protractor tests
       working-directory: ./frontend
       run: |
-        npm run webdriver:update
-        pm2 start 'npm run webdriver:start' -n webdriver
+        npm run web:update
+        pm2 start 'npm run web:start' -n webdriver
 
     - name: Test frontend
       working-directory: ./frontend
