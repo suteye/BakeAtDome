@@ -50,13 +50,21 @@ jobs:
       working-directory: ./backend
       run: npm run test
 
-    - name: Update and start webdriver
-      working-directory: ./frontend
-      run: pm2 start 'npm run web' -n webdriver
-
+    # - name: Update and start webdriver
+    #   working-directory: ./frontend
+    #   run: |
+    #     npm run webdriver:update
+    #     npm run webdriver:start
     - name: Test frontend
-      working-directory: ./frontend
-      run: npm run test:protractor
+      uses: BerniWittmann/background-server-action@latest
+      with:
+        command: npm run web
+        start: npm run test:protractor
+
+
+    # - name: Test frontend
+    #   working-directory: ./frontend
+    #   run: npm run test:protractor
 
       
   build:
