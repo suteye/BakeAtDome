@@ -21,13 +21,29 @@ jobs:
       with:
         node-version: '16'
         cache: 'npm'
+        
+    - name: Install dependencies backend
+      working-directory: ./backend
+      run: npm install --legacy-peer-deps
+
+    - name: Install dependencies frontend
+      working-directory: ./frontend
+      run: npm install --legacy-peer-deps
+
+    - name: Start backend
+      working-directory: ./backend
+      run: npm run server
+      
+    - name: Start frontend
+      working-directory: ./frontend
+      run: npm start
 
     - name: Test backend
-      working-directory: ./app/backend
+      working-directory: ./backend
       run: npm run test
 
     - name: Test frontend
-      working-directory: ./app/frontend
+      working-directory: ./frontend
       run: npm run test:protractor
 
       
