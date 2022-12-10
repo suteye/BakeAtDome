@@ -51,14 +51,14 @@ jobs:
       run: pm2 start 'npm run server' -n backend
 
     - name: check backend is running
-      run: curl http://localhost:5500
+      run: curl http://127.0.0.1:5500
       
     - name: Start frontend
       working-directory: ./frontend
       run: pm2 start 'npm start' -n frontend
 
     - name: check frontend is running
-      run: curl http://localhost:3000
+      run: curl http://127.0.0.1:3000
 
     - name: Test backend
       working-directory: ./backend
