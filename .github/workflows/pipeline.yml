@@ -13,12 +13,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    # services:
-    #   selenium:
-    #     image: selenium/standalone-chrome:latest
-    #     ports:
-    #       - 4444:4444
-
     steps:
     - uses: actions/checkout@v3
 
@@ -52,19 +46,11 @@ jobs:
       working-directory: ./backend
       run: pm2 start 'npm run server' -n backend
 
-    # - name: Start webdriver
-    #   working-directory: ./frontend
-    #   run: pm2 start 'npm run web' -n webdriver
-
     - name: Wait 10 seconds
       run: sleep 10
 
     - name: Check frontend is running
       run: curl http://127.0.0.1:3000
-
-    # - name: Test frontend
-    #   working-directory: ./frontend
-    #   run: npm run test:protractor
 
     - name: Test frontend
       working-directory: ./frontend
@@ -76,24 +62,8 @@ jobs:
     - name: Test backend
       working-directory: ./backend
       run: npm run test
-
-
-    # - name: Update and start webdriver
-    #   working-directory: ./frontend
-    #   run: |
-    #     npm run webdriver:update
-    #     npm run webdriver:start
-  
-    # - name: Update and start webdriver and run protractor tests
-    #   working-directory: ./frontend
-    #   run: |
-    #     npm run web:update
-    #     pm2 start 'npm run web:start' -n webdriver
-
-
       
   build:
-    # if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     needs: [ test ]
     runs-on: ubuntu-latest
 
@@ -124,6 +94,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v3
+    
     - name: Configure AWS credentials
       if: success()
       uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
