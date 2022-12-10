@@ -13,14 +13,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      selenium:
-        image: selenium/standalone-chrome:latest
-        ports:
-          - 4444:4444
+    # services:
+    #   selenium:
+    #     image: selenium/standalone-chrome:latest
+    #     ports:
+    #       - 4444:4444
 
     steps:
     - uses: actions/checkout@v3
+
+    - uses: ajinx/selenoid@v2
 
     - name: Set up node.js
       uses: actions/setup-node@v3
