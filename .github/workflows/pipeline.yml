@@ -2,12 +2,12 @@ name: BakeAtDome
 
 on:
   push:
-    branches: [ Dev-Eye ]
+    branches: [ main ]
   pull_request:
     types: [ opened, reopened, closed, edited ]
   merge_group:
     types: [checks_requested]
-    branches: [ Dev-Eye ]
+    branches: [ main ]
 
 jobs:
   test:
@@ -95,7 +95,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Configure AWS credentials
       if: success()
       uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
@@ -111,7 +111,7 @@ jobs:
       env: 
         KEY_PAIR_NAME: ${{ secrets.AWS_KEYPAIR_NAME }}
         SECGROUP_ID: ${{ secrets.AWS_SECGROUP_ID }}
-      run: aws ec2 run-instances --image-id ami-0b0dcb5067f052a63 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID --user-data file://script/user_data.txt
+      run: aws ec2 run-instances --image-id ami-0b0dcb5067f052a63 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID --user-data /home/runner/work/BakeAtDome/script/user_data.txt
           
 
 
