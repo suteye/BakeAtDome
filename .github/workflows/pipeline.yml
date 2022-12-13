@@ -1,10 +1,10 @@
 name: BakeAtDome
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    types: [ opened ]
+  # push:
+  #   branches: [ main ]
+  # pull_request:
+  #   types: [ opened ]
   merge_group:
     types: [checks_requested]
     branches: [ main ]
