@@ -112,7 +112,7 @@ jobs:
  
   close:
     if: failure()
-    needs: [ test,build,deploy ]
+    needs: [ test,build ]
     runs-on: ubuntu-latest
     steps:
       - name: Close Pull
