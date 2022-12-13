@@ -55,4 +55,7 @@ npm install --legacy-peer-deps
 #start backend with pm2
 pm2 start 'npm run server' -n 'backend'
 
+#check mongodb version
+mongod --version
+
 pm2 logs
