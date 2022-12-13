@@ -13,7 +13,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: superbrothers/close-pull-request@v3
+    - name: Close Pull
+      uses: peter-evans/close-pull@v2
+      with:
+        token: ${{ secrets.TOKEN_GITHUB }}
+        pull-request-number: ${{ github.event.pull_request.number }}
+        comment: Auto-closing pull request
+        delete-branch: false
 
     - name: Set up node.js
       uses: actions/setup-node@v3
