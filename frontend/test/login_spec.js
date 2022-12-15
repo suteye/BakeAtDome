@@ -6,7 +6,7 @@ describe('Login & Logout Frontend', function() {
 
   beforeEach(function() {
     browser.ignoreSynchronization = true;
-    browser.get('http://localhost:3000/login');
+    browser.get('http://127.0.0.1/login');
   });
 
   it('Login Failed: Invalid Username', function() {
@@ -30,7 +30,7 @@ describe('Login & Logout Frontend', function() {
     elm_header = element(by.className('head'));
     browser.wait(EC.textToBePresentInElement(elm_header, 'BAKE@DOME'), 5000);
 
-    element(by.id('username')).sendKeys('athip.b@tu.ac.th');
+    element(by.id('username')).sendKeys('sutima.phe@dome.tu.ac.th');
     element(by.name('password')).sendKeys('demo');
 
     elm_button_click = element(by.className('ant-btn ant-btn-default ant-btn-lg ant-btn-block login-btn'));
@@ -110,7 +110,7 @@ describe('Login & Logout Frontend', function() {
     elm_header = element(by.className('head'));
     browser.wait(EC.textToBePresentInElement(elm_header, 'BAKE@DOME'), 5000);
 
-    element(by.id('username')).sendKeys('athip.b@tu.ac.th');
+    element(by.id('username')).sendKeys('sutima.phe@dome.tu.ac.th');
     element(by.name('password')).sendKeys('demo12345');
 
     elm_button_click = element(by.className('ant-btn ant-btn-default ant-btn-lg ant-btn-block login-btn'));
@@ -121,7 +121,7 @@ describe('Login & Logout Frontend', function() {
     browser.wait(EC.elementToBeClickable(elm_popup_click), 5000);
     elm_popup_click.click()
 
-    expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/');
+    expect(browser.getCurrentUrl()).toEqual('http://127.0.0.1/');
 
     elm_logout_click = element(by.className('anticon anticon-logout ant-menu-item-icon'));
     browser.wait(EC.elementToBeClickable(elm_logout_click), 5000);
@@ -130,7 +130,7 @@ describe('Login & Logout Frontend', function() {
     elm_header = element(by.className('head'));
     browser.wait(EC.textToBePresentInElement(elm_header, 'BAKE@DOME'), 5000);
 
-    expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/login');
+    expect(browser.getCurrentUrl()).toEqual('http://127.0.0.1/login');
 
   });
 
@@ -138,7 +138,7 @@ describe('Login & Logout Frontend', function() {
     elm_header = element(by.className('head'));
     browser.wait(EC.textToBePresentInElement(elm_header, 'BAKE@DOME'), 5000);
 
-    element(by.id('username')).sendKeys('athip.b@tu.ac.th');
+    element(by.id('username')).sendKeys('sutima.phe@dome.tu.ac.th');
     element(by.name('password')).sendKeys('demo12345');
 
     elm_button_click = element(by.className('ant-btn ant-btn-default ant-btn-lg ant-btn-block login-btn'));
@@ -149,7 +149,7 @@ describe('Login & Logout Frontend', function() {
     browser.wait(EC.elementToBeClickable(elm_popup_click), 5000);
     elm_popup_click.click()
 
-    expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/');
+    expect(browser.getCurrentUrl()).toEqual('http://127.0.0.1/');
 
   });
 

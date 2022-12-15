@@ -1,3 +1,5 @@
+const baseUrl = process.env.FRONTEND_URL || 'http://127.0.0.1:3000';
+
 describe('Login', () => {
 
   beforeEach(() => {

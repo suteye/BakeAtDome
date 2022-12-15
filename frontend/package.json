@@ -19,7 +19,8 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
     "supertest": "^6.3.3",
-    "sweetalert2": "^11.6.4"
+    "sweetalert2": "^11.6.4",
+    "webdriver-manager": "^12.1.8"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,7 +30,8 @@
     "cypress:run": "cypress run",
     "test:protractor": "protractor test/conf.js",
     "web:update": "webdriver-manager update",
-    "web:start": "webdriver-manager start",
+    "web:start": "webdriver-manager start --detach",
+    "web:shutdown": "webdriver-manager shutdown",
     "web": "npm run web:update && npm run web:start",
     "eject": "react-scripts eject"
   },

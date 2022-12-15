@@ -1,18 +1,15 @@
 name: BakeAtDome
 
 on:
-  # push:
-  #   branches: [ main ]
-  # pull_request:
-  #   types: [ opened ]
-  merge_group:
-    types: [checks_requested]
+  push:
     branches: [ main ]
+  pull_request:
+    types: [ opened ]
 
 jobs:
+
   test:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
 
@@ -45,7 +42,7 @@ jobs:
     - name: Start backend
       working-directory: ./backend
       run: pm2 start 'npm run server' -n backend
-
+    
     - name: Wait 10 seconds
       run: sleep 10
 
@@ -56,12 +53,14 @@ jobs:
       working-directory: ./frontend
       run: npm run cypress:run
 
+      
     - name: Check backend is running
       run: curl http://127.0.0.1:5500
 
     - name: Test backend
       working-directory: ./backend
       run: npm run test
+    
       
   build:
     needs: [ test ]
@@ -82,12 +81,13 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and push to DockerHub
+    - name: Build docker compose 
       if: success()
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome-image:latest
+      run: docker-compose build
+
+    - name: Push docker compose to DockerHub
+      if: success()
+      run: docker-compose push
   
   deploy:
     needs: [ test,build ]
@@ -111,7 +111,17 @@ jobs:
       env: 
         KEY_PAIR_NAME: ${{ secrets.AWS_KEYPAIR_NAME }}
         SECGROUP_ID: ${{ secrets.AWS_SECGROUP_ID }}
-      run: aws ec2 run-instances --image-id ami-0b0dcb5067f052a63 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID --user-data /home/runner/work/BakeAtDome/script/user_data.txt
-          
-
-
+      run: aws ec2 run-instances --image-id ami-0b0dcb5067f052a63 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID --user-data file://script/user_data.txt
+ 
+  close:
+    if: failure()
+    needs: [ test,build,deploy ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close Pull
+        uses: peter-evans/close-pull@v2
+        with:
+          token: ${{ secrets.TOKEN_GITHUB }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          comment: Auto-closing pull request
+          delete-branch: false

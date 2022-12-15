@@ -15,7 +15,7 @@ exports.getEmployees = async (req, res,next) => {
 }
 
 //add new employee to database
-exports.addEmployees = async (req, res) => {
+exports.addEmployees = async (req, res,next) => {
     const {employeeEmail, employeePassword, employeePosition, employeeName, employeePhone} = req.body;
     const newEmployee = new Employees({employeeEmail, employeePassword, employeePosition, employeeName, employeePhone});
     try{
@@ -32,7 +32,7 @@ exports.addEmployees = async (req, res) => {
 }
 
 // updated employee to database
-exports.updateEmployees = async (req, res) => {
+exports.updateEmployees = async (req, res,next) => {
     const emp = await Employees.findById(req.body.employeeId);
 
     if(emp) {
@@ -60,7 +60,7 @@ exports.updateEmployees = async (req, res) => {
 }
 
 //delete employee from database
-exports.deleteEmployees = async (req, res) => {
+exports.deleteEmployees = async (req, res,next) => {
     try{
         await Employees.findOneAndDelete({_id: req.body.employeeId});
         res.status(201).json({message: 'ลบพนักงานสำเร็จ'});

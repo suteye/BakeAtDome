@@ -1,0 +1,16 @@
+FROM node:16-alpine AS alpine
+
+LABEL version="1.0"
+LABEL description="Dockerfile for the frontend of the application."
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install --legacy-peer-deps
+
+COPY . .
+
+#run test 
+CMD [ "npm", "start" ]
+
