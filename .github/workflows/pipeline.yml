@@ -2,7 +2,7 @@ name: BakeAtDome
 
 on:
   push:
-    branches: [ Dev-Eye ]
+    branches: [ main ]
   pull_request:
     types: [ opened ]
 
