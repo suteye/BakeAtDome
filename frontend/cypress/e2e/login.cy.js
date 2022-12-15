@@ -4,7 +4,7 @@ describe('Login', () => {
 
   beforeEach(() => {
 
-    cy.visit(baseUrl)
+    cy.visit('http://localhost:3000')
   
   })
 
