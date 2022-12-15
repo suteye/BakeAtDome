@@ -9,9 +9,7 @@ on:
 jobs:
 
   test:
-    needs: [ build ]
     runs-on: ubuntu-latest
-    # container: cypress/browsers:node12.13.0-chrome78-ff70
     steps:
     - uses: actions/checkout@v3
 
@@ -20,9 +18,6 @@ jobs:
       with:
         node-version: '16'
         cache: 'npm'
-    
-    # - name: Run docker compose
-    #   run: docker-compose up -d
 
     - name: Start MongoDB
       uses: supercharge/mongodb-github-action@1.8.0
@@ -51,15 +46,15 @@ jobs:
     - name: Wait 10 seconds
       run: sleep 10
 
-    # - name: Check frontend is running
-    #   run: curl http://127.0.0.1:3000
+    - name: Check frontend is running
+      run: curl http://127.0.0.1:3000
 
     - name: Test frontend
       working-directory: ./frontend
       run: npm run cypress:run
 
-    # - name: Check backend is running
-    #   run: curl http://127.0.0.1:5500
+    - name: Check backend is running
+      run: curl http://127.0.0.1:5500
 
     # - name: Install dependencies frontend
     #   working-directory: ./frontend
@@ -90,6 +85,7 @@ jobs:
       run: npm run test
       
   build:
+    needs: [ test ]
     runs-on: ubuntu-latest
 
     steps:
