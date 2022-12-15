@@ -60,6 +60,9 @@ jobs:
     - name: Test backend
       working-directory: ./backend
       run: npm run test
+
+    - name: Add MONGO_URL in .env
+      run: echo "MONGO_URL=mongodb://mongo:2017/BakeAtDome" >> /home/runner/work/BakeAtDome/BakeAtDome/backend/.env
     
       
   build:
@@ -107,7 +110,6 @@ jobs:
  
     - name: Create EC2 and deploy application to EC2
       if: success()
-      working-directory: ./ 
       env: 
         KEY_PAIR_NAME: ${{ secrets.AWS_KEYPAIR_NAME }}
         SECGROUP_ID: ${{ secrets.AWS_SECGROUP_ID }}
