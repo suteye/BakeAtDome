@@ -36,7 +36,7 @@ jobs:
   test:
     needs: [ build ]
     runs-on: ubuntu-latest
-
+    container: cypress/browsers:node12.13.0-chrome78-ff70
     steps:
     - uses: actions/checkout@v3
 
@@ -48,10 +48,16 @@ jobs:
     
     - name: Run docker compose
       run: docker-compose up -d
+
+    - uses: cypress-io/github-action@v4
+      with:
+        browser: chrome
+        
+
     
-    - name: Test frontend
-      working-directory: ./frontend
-      run: npm run cypress:run
+    # - name: Test frontend
+    #   working-directory: ./frontend
+    #   run: npm run cypress:run
 
     # - name: Run webdriver
     #   working-directory: ./frontend
