@@ -1,5 +1,5 @@
 const request = require('supertest');
-const loginBaseURL = process.env.BACKEND_URL + '/auth/login' || 'http://127.0.0.1:5500/auth/login';
+const loginBaseURL = 'http://127.0.0.1:5500/auth/login';
 
 describe('Login & Logout Backend', () => {
 
