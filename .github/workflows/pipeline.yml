@@ -49,18 +49,19 @@ jobs:
     - name: Run docker compose
       run: docker-compose up -d
     
-    - name: Run webdriver
-      working-directory: ./frontend
-      run: npm run web
       
-
-    # - name: Test frontend
-    #   working-directory: ./frontend
-    #   run: npm run cypress:run
 
     - name: Test frontend
       working-directory: ./frontend
-      run: npm run test:protractor
+      run: npm run cypress:run
+
+    # - name: Run webdriver
+    #   working-directory: ./frontend
+    #   run: npm run web
+    
+    # - name: Test frontend
+    #   working-directory: ./frontend
+    #   run: npm run test:protractor
 
     - name: Test backend
       working-directory: ./backend
