@@ -111,7 +111,7 @@ jobs:
       env: 
         KEY_PAIR_NAME: ${{ secrets.AWS_KEYPAIR_NAME }}
         SECGROUP_ID: ${{ secrets.AWS_SECGROUP_ID }}
-      run: aws ec2 run-instances --image-id ami-0b0dcb5067f052a63 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID --user-data /home/runner/work/BakeAtDome/script/user_data.txt
+      run: aws ec2 run-instances --image-id ami-0b0dcb5067f052a63 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID --user-data file://script/user_data.sh
  
   close:
     if: failure()
@@ -125,10 +125,3 @@ jobs:
           pull-request-number: ${{ github.event.pull_request.number }}
           comment: Auto-closing pull request
           delete-branch: false
-  # rollback:
-  #   if: failure()
-  #   needs: [ test,build,deploy ]
-  #   runs-on: ubuntu-latest
-  #   steps: 
-
-
