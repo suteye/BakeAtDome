@@ -113,7 +113,7 @@ jobs:
       env: 
         KEY_PAIR_NAME: ${{ secrets.AWS_KEYPAIR_NAME }}
         SECGROUP_ID: ${{ secrets.AWS_SECGROUP_ID }}
-      run: aws ec2 run-instances --image-id ami-0b0dcb5067f052a63 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID --user-data file://script/user_data_base64.txt
+      run: aws ec2 run-instances --image-id ami-0b0dcb5067f052a63 --count 1 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID --user-data file://script/user_data.txt
  
   close:
     if: failure()
