@@ -42,6 +42,9 @@ jobs:
     - name: Start backend
       working-directory: ./backend
       run: pm2 start 'npm run server' -n backend
+    
+    - name: compose down
+      run: docker-compose down
 
     - name: Wait 10 seconds
       run: sleep 10
@@ -56,21 +59,7 @@ jobs:
     - name: Check backend is running
       run: curl http://127.0.0.1:5500
 
-    # - name: Test frontend
-    #   working-directory: ./frontend
-    #   run: npm run cypress:run
 
-    # - uses: cypress-io/github-action@v4
-    #   with:
-    #     browser: chrome
-
-    # - name: Run webdriver
-    #   working-directory: ./frontend
-    #   run: npm run web
-
-    # - name: Test frontend
-    #   working-directory: ./frontend
-    #   run: npm run test:protractor
 
     - name: Test backend
       working-directory: ./backend
