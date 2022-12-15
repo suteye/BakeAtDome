@@ -27,11 +27,11 @@ jobs:
 
     - name: Build docker compose 
       if: success()
-      uses: docker-compose build
+      run: docker-compose build
 
     - name: Push docker compose to DockerHub
       if: success()
-      uses: docker-compose push
+      run: docker-compose push
 
   test:
     needs: [ build ]
@@ -47,7 +47,7 @@ jobs:
         cache: 'npm'
     
     - name: Run docker compose
-      uses: docker-compose up -d
+      run: docker-compose up -d
     
     - name: Run webdriver
       working-directory: ./frontend
