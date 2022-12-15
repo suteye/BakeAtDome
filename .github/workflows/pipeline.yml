@@ -59,6 +59,9 @@ jobs:
     - name: Test backend
       working-directory: ./backend
       run: npm run test
+    
+    - name: pm2 logs
+      run: pm2 logs
       
   build:
     needs: [ test ]
