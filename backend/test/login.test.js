@@ -1,5 +1,5 @@
 const request = require('supertest');
-const loginBaseURL = 'http://localhost:5500/api/auth/';
+const loginBaseURL = 'http://127.0.0.1/api/auth/';
 
 describe('Login & Logout Backend', () => {
 

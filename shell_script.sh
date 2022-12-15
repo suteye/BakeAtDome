@@ -3,23 +3,23 @@
 #update packages
 yum update -y
 
-#Configure the package management system (yum)
-touch mongodb-org-6.0.repo
-echo "[mongodb-org-6.0]" >> mongodb-org-6.0.repo
-echo "name=MongoDB Repository" >> mongodb-org-6.0.repo
-echo "baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/6.0/x86_64/" >> mongodb-org-6.0.repo
-echo "gpgcheck=1" >> mongodb-org-6.0.repo
-echo "enabled=1" >> mongodb-org-6.0.repo
-echo "gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc" >> mongodb-org-6.0.repo
-mv mongodb-org-6.0.repo /etc/yum.repos.d/
+# #Configure the package management system (yum)
+# touch mongodb-org-6.0.repo
+# echo "[mongodb-org-6.0]" >> mongodb-org-6.0.repo
+# echo "name=MongoDB Repository" >> mongodb-org-6.0.repo
+# echo "baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/6.0/x86_64/" >> mongodb-org-6.0.repo
+# echo "gpgcheck=1" >> mongodb-org-6.0.repo
+# echo "enabled=1" >> mongodb-org-6.0.repo
+# echo "gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc" >> mongodb-org-6.0.repo
+# mv mongodb-org-6.0.repo /etc/yum.repos.d/
 
-#Install the MongoDB packages
-yum install -y mongodb-org
+# #Install the MongoDB packages
+# yum install -y mongodb-org
 
-#Start MongoDB.
-systemctl start mongod
-#Verify that MongoDB has started successfully.
-systemctl status mongod
+# #Start MongoDB.
+# systemctl start mongod
+# #Verify that MongoDB has started successfully.
+# systemctl status mongod
 
 #install git
 yum install git -y
@@ -54,8 +54,5 @@ npm install --legacy-peer-deps
 
 #start backend with pm2
 pm2 start 'npm run server' -n 'backend'
-
-#check mongodb version
-mongod --version
 
 pm2 logs
