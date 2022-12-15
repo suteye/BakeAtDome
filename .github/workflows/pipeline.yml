@@ -56,11 +56,6 @@ jobs:
     - name: Check backend is running
       run: curl http://127.0.0.1:5500
 
-    # - name: Install dependencies frontend
-    #   working-directory: ./frontend
-    #   run: npm ci
-
-
     # - name: Test frontend
     #   working-directory: ./frontend
     #   run: npm run cypress:run
@@ -68,9 +63,6 @@ jobs:
     # - uses: cypress-io/github-action@v4
     #   with:
     #     browser: chrome
-
-
-    
 
     # - name: Run webdriver
     #   working-directory: ./frontend
