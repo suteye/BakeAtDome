@@ -27,6 +27,8 @@ services:
       - /app/node_modules
     environment:
       - MONGO_URL=mongodb://mongo:27017/BakeAtDome
+      - FRONTEND_URL=http://127.0.0.1
+      - BACKEND_URL=http://127.0.0.1
     env_file:
       - ./backend/.env
     depends_on:
