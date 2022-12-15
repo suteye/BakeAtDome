@@ -36,7 +36,7 @@ jobs:
   test:
     needs: [ build ]
     runs-on: ubuntu-latest
-    container: cypress/browsers:node12.13.0-chrome78-ff70
+    # container: cypress/browsers:node12.13.0-chrome78-ff70
     steps:
     - uses: actions/checkout@v3
 
@@ -46,18 +46,65 @@ jobs:
         node-version: '16'
         cache: 'npm'
     
-    - name: Run docker compose
-      run: docker-compose up -d
+    # - name: Run docker compose
+    #   run: docker-compose up -d
 
-    - uses: cypress-io/github-action@v4
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.8.0
       with:
-        browser: chrome
+        mongodb-version: '6.0'
+
+    - name: Install dependencies backend
+      working-directory: ./backend
+      run: npm ci --legacy-peer-deps
+
+    - name: Install dependencies frontend
+      working-directory: ./frontend
+      run: npm ci --legacy-peer-deps
+
+    - name: Install pm2 globally
+      run: npm install -g pm2
+
+    - name: Start frontend
+      working-directory: ./frontend
+      run: pm2 start 'npm start' -n frontend
+
+    - name: Start backend
+      working-directory: ./backend
+      run: pm2 start 'npm run server' -n backend
+
+    - name: Wait 10 seconds
+      run: sleep 10
+
+    # - name: Check frontend is running
+    #   run: curl http://127.0.0.1:3000
+
+    - name: Test frontend
+      working-directory: ./frontend
+      run: npm run cypress:run
+
+    # - name: Check backend is running
+    #   run: curl http://127.0.0.1:5500
+
+    - name: Test backend
+      working-directory: ./backend
+      run: npm run test
+
+    # - name: Install dependencies frontend
+    #   working-directory: ./frontend
+    #   run: npm ci
 
 
-    
     # - name: Test frontend
     #   working-directory: ./frontend
     #   run: npm run cypress:run
+
+    # - uses: cypress-io/github-action@v4
+    #   with:
+    #     browser: chrome
+
+
+    
 
     # - name: Run webdriver
     #   working-directory: ./frontend

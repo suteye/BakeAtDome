@@ -1,33 +1,43 @@
-FROM node:16
+# FROM node:16
 
-# WORKDIR /app/backend
+# # WORKDIR /app/backend
+# # COPY . .
+# # RUN npm install --legacy-peer-deps
+# # RUN npm run test
+
+# # FROM openjdk:8-jdk
+# # Install OpenJDK-8
+
+
+# # ENV chrome_version=78.0.3904.108
+
+
+# # # Google Chrome
+# # RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+# # 	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+# # 	&& apt-get update -qqy \
+# # 	&& apt-get -qqy install google-chrome-stable \
+# # 	&& rm /etc/apt/sources.list.d/google-chrome.list \
+# # 	&& rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+
+# WORKDIR /app
 # COPY . .
+# WORKDIR /app/frontend
+# COPY ./package.json .
+# COPY . . 
+
 # RUN npm install --legacy-peer-deps
-# RUN npm run test
 
-# FROM openjdk:8-jdk
-# Install OpenJDK-8
+# RUN npm run cypress:run
 
-
-ENV chrome_version=78.0.3904.108
-
-
-# Google Chrome
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-	&& apt-get update -qqy \
-	&& apt-get -qqy install google-chrome-stable \
-	&& rm /etc/apt/sources.list.d/google-chrome.list \
-	&& rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-	&& sed -i 's/"$HERE\/chrome"/"$HERE\/chrome" --no-sandbox/g' /opt/google/chrome/google-chrome
+# # RUN ./node_modules/.bin/webdriver-manager update --versions.chrome=${chrome_version}
+# # RUN npm run web:start
+# # RUN npm run test:protractor
+# # RUN npm run web:shutdown
 
 
-WORKDIR /app
-COPY . .
-WORKDIR /app/frontend
-RUN npm install --legacy-peer-deps
 
-RUN ./node_modules/.bin/webdriver-manager update --versions.chrome=${chrome_version}
-RUN npm run web:start
-RUN npm run test:protractor
-RUN npm run web:shutdown
+FROM cypress/browsers:node16.5.0-chrome94-ff93
+
+RUN apt update && apt upgrade -y
+
