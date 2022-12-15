@@ -53,8 +53,6 @@ jobs:
       working-directory: ./frontend
       run: npm run cypress:run
 
-    - name: pm2 logs
-      run: pm2 logs
       
     - name: Check backend is running
       run: curl http://127.0.0.1:5500
