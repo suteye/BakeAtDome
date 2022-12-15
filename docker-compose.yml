@@ -58,6 +58,19 @@ services:
     volumes:
       - mongo-data:/data/db
 
+  cypress:
+    image: cypress/included:3.8.3
+    container_name: cypress
+    volumes:
+      - ./cypress:/e2e
+    working_dir: /frontend/cypress/e2e
+    command: ["npm", "run", "cypress:run"]
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - mongo-net
+
 networks:
   mongo-net:
     driver: bridge

@@ -8,3 +8,5 @@ sudo gpasswd -a ec2-user docker
 newgrp docker
 
 docker run -dp 3000:3000 eeyeppr/bake-at-dome-image
+
+docker-compose up -d
