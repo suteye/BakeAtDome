@@ -1,6 +1,8 @@
 #!/bin/bash
 sudo yum -y update
 
+sudo touch test.txt
+
 sudo amazon-linux-extras install docker -y
 sudo service docker start
 
