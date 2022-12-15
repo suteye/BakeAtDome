@@ -1,0 +1,117 @@
+name: BakeAtDome
+
+on:
+  push:
+    branches: [ Dev-Eye ]
+  pull_request:
+    types: [ opened, reopened, closed, edited ]
+  merge_group:
+    types: [checks_requested]
+    branches: [ Dev-Eye ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        cache: 'npm'
+
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.8.0
+      with:
+        mongodb-version: '6.0'
+
+    - name: Install dependencies backend
+      working-directory: ./backend
+      run: npm ci --legacy-peer-deps
+
+    - name: Install dependencies frontend
+      working-directory: ./frontend
+      run: npm ci --legacy-peer-deps
+
+    - name: Install pm2 globally
+      run: npm install -g pm2
+
+    - name: Start frontend
+      working-directory: ./frontend
+      run: pm2 start 'npm start' -n frontend
+
+    - name: Start backend
+      working-directory: ./backend
+      run: pm2 start 'npm run server' -n backend
+
+    - name: Wait 10 seconds
+      run: sleep 10
+
+    - name: Check frontend is running
+      run: curl http://127.0.0.1:3000
+
+    - name: Test frontend
+      working-directory: ./frontend
+      run: npm run cypress:run
+
+    - name: Check backend is running
+      run: curl http://127.0.0.1:5500
+
+    - name: Test backend
+      working-directory: ./backend
+      run: npm run test
+      
+  build:
+    needs: [ test ]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        cache: 'npm'
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push to DockerHub
+      if: success()
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/bake-at-dome-image:latest
+  
+  deploy:
+    needs: [ test,build ]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Configure AWS credentials
+      if: success()
+      uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: ${{ secrets.AWS_REGION }}
+ 
+    - name: Create EC2 and deploy application to EC2
+      if: success()
+      working-directory: ./ 
+      env: 
+        KEY_PAIR_NAME: ${{ secrets.AWS_KEYPAIR_NAME }}
+        SECGROUP_ID: ${{ secrets.AWS_SECGROUP_ID }}
+      run: aws ec2 run-instances --image-id ami-0b0dcb5067f052a63 --instance-type t2.micro  --key-name $KEY_PAIR_NAME --security-group-ids $SECGROUP_ID --user-data file://script/user_data.txt
+          
+
+

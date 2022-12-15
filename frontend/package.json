@@ -7,6 +7,7 @@
     "antd": "^5.0.2",
     "axios": "^1.2.0",
     "http-proxy-middleware": "^2.0.6",
+    "jest": "^27.5.1",
     "protractor": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -17,16 +18,19 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "supertest": "^6.3.3",
     "sweetalert2": "^11.6.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "test:protractor": "protractor test/conf.js",
     "web:update": "webdriver-manager update",
     "web:start": "webdriver-manager start",
-    "web": "webdriver-manager update && webdriver-manager start",
+    "web": "npm run web:update && npm run web:start",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -46,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^12.1.0"
   }
 }

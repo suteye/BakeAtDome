@@ -1,9 +1,9 @@
-FROM node:16
+FROM amazonlinux
 
 # shell scripts
 WORKDIR /app
-ADD start_ubuntu.sh /app
-RUN chmod +x /app/start_ubuntu.sh
+ADD shell_script.sh /app
+RUN chmod +x /app/shell_script.sh
 EXPOSE 3000
 
-CMD [ "/bin/bash", "./start_ubuntu.sh" ]
+CMD [ "./shell_script.sh" ]
