@@ -43,9 +43,6 @@ jobs:
       working-directory: ./backend
       run: pm2 start 'npm run server' -n backend
     
-    - name: compose down
-      run: docker-compose down
-
     - name: Wait 10 seconds
       run: sleep 10
 
@@ -58,8 +55,6 @@ jobs:
 
     - name: Check backend is running
       run: curl http://127.0.0.1:5500
-
-
 
     - name: Test backend
       working-directory: ./backend
