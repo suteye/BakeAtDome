@@ -16,7 +16,14 @@ cd /home/ec2-user
 git clone https://github.com/suteye/BakeAtDome.git
 cd BakeAtDome
 cd backend
-echo -e "MONGO_URI=mongodb://mongo:2017/BakeAtDome" >> .env
+rm -rf .env
+mkdir .env
+echo "PORT = 5500" >> .env
+echo "MONGO_URI=mongodb://mongo:2017/BakeAtDome" >> .env
+echo "JWT_SECRET = d545fcd4859255a6fe0de9fd1f3e50b0fb2979cc418af87b84aa49c9d2aa27c28a70b6" >> .env
+echo "JWT_EXPIRE = 1d" >> .env
+echo "FRONTEND_URL = http://127.0.0.1:3000" >> .env
+echo "BACKEND_URL = http://127.0.0.1:5500" >> .env
 cd ..
 docker-compose pull
 docker-compose up -d
