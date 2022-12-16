@@ -1,17 +1,22 @@
 #!/bin/bash
-yum -y update
+sudo yum -y update
 
-yum install -y git
-amazon-linux-extras install docker -y
-service docker start
+sudo yum install -y git
+sudo amazon-linux-extras install docker -y
+sudo service docker start
 
-curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
-mv /usr/local/bin/docker-compose /usr/bin/docker-compose
-chmod +x /usr/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
+sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo chmod +x /usr/bin/docker-compose
 
-gpasswd -a ec2-user docker
+sudo gpasswd -a ec2-user docker
 newgrp docker
 
+cd /home/ec2-user
 git clone https://github.com/suteye/BakeAtDome.git
+cd BakeAtDome
+cd backend
+echo "MONGO_URL=mongodb://mongo:2017/BakeAtDome" >> .env
+cd ..
 docker-compose pull
 docker-compose up -d
