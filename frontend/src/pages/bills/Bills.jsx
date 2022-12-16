@@ -93,7 +93,7 @@ const dispatch = useDispatch();
     <Layout>
       
       <div style={{display: 'flex', marginBottom: '50px' }}>
-        <p style={{borderRadius: '5px 0px 0px 5px', width: '7rem', border: '1px solid', borderColor: '#cecece', background: '#fafafa', textAlign:"center", marginBottom: '0px', paddingTop: '10px'}}>เลขที่บิล</p>
+        <p style={{borderRadius: '5px 0px 0px 5px', width: '7rem', border: '1px solid', borderColor: '#cecece', background: '#fafafa', textAlign:"center", marginBottom: '0px', paddingTop: '10px'}}>รหัสใบเสร็จ</p>
         <Input style={{width: '25rem', borderRadius: '0px 5px 5px 0px'}} size="large" placeholder="ค้นหารหัสใบเสร็จ" onChange={e => setSearch(e.target.value)} value={search}/>
       </div>
       <Table dataSource={billsData} columns={columns} bordered />
