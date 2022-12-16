@@ -2,6 +2,7 @@ name: BakeAtDome
 
 on:
   pull_request:
+    branches: [ main ]
     types: [ opened ]
 
 jobs:
