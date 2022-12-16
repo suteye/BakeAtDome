@@ -15,8 +15,6 @@ newgrp docker
 cd /home/ec2-user
 git clone https://github.com/suteye/BakeAtDome.git
 cd BakeAtDome
-cd backend
-echo "MONGO_URI=mongodb://mongo:2017/BakeAtDome" >> .env
-cd ..
+echo "MONGO_URI=mongodb://mongo:2017/BakeAtDome" >> /backend/.env
 docker-compose pull
 docker-compose up -d
