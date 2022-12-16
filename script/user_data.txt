@@ -17,7 +17,7 @@ git clone https://github.com/suteye/BakeAtDome.git
 cd BakeAtDome
 cd backend
 rm -rf .env
-mkdir .env
+touch .env
 sudo echo "PORT = 5500" >> .env
 sudo echo "MONGO_URI=mongodb://mongo:2017/BakeAtDome" >> .env
 sudo echo "JWT_SECRET = d545fcd4859255a6fe0de9fd1f3e50b0fb2979cc418af87b84aa49c9d2aa27c28a70b6" >> .env
