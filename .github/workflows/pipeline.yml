@@ -1,8 +1,6 @@
 name: BakeAtDome
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     types: [ opened ]
 
@@ -61,8 +59,6 @@ jobs:
       working-directory: ./backend
       run: npm run test
 
-    - name: Add MONGO_URL in .env
-      run: echo "MONGO_URL=mongodb://mongo:2017/BakeAtDome" >> /home/runner/work/BakeAtDome/BakeAtDome/backend/.env
     
       
   build:
