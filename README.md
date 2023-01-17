@@ -43,7 +43,7 @@ frontend: ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-th
 backend: ![Nodejs](https://img.shields.io/badge/nodejs-%2361DAFB.svg?style=for-the-badge&logo=nodejs&logoColor=%2361DAFB) 
 
 
-database: Google Sheets
+database: ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 
 
 
